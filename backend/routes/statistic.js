@@ -26,8 +26,8 @@ router.route('/:id').get((req,res)=>{
     .catch(err=>res.status(400).json('Error: ' + err));
 });
 
-router.route('/:date').get((req,res)=>{
-    Statistic.find(req.params.date)
+router.route('/date/:date').get((req,res)=>{
+    Statistic.find({date: req.params.date})
     .then(statistic=>res.json(statistic))
     .catch(err=>res.status(400).json('Error: ' + err));
 });
@@ -38,8 +38,8 @@ router.route('/:id').delete((req,res)=>{
     .catch(err=>res.status(400).json('Error: ' + err));
 });
 
-router.route('/:date').delete((req,res)=>{
-    Statistic.findByIdAndDelete(req.params.date)
+router.route('/date/:date').delete((req,res)=>{
+    Statistic.find({date: req.params.date})
     .then(()=>res.json('Statistic deleted.'))
     .catch(err=>res.status(400).json('Error: ' + err));
 });

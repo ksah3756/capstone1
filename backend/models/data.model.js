@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 const Schema = mongoose.Schema;
 
@@ -14,8 +15,12 @@ const dataSchema = new Schema({
         type: [String],
         required: false
     },
+    date: {
+        type:String,
+        default: ()=>moment().format("hh:mm:ss")
+    }
 }, {
-    timestamps: {createdAt: 'date'},
+    timestamps: true,
 });
 
 const Data = mongoose.model('Data', dataSchema);

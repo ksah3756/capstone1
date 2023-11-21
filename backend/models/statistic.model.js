@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const moment = require('moment');
 
 const Schema = mongoose.Schema;
 
@@ -13,9 +14,13 @@ const statisticSchema = new Schema({
             4 : Number,
             5 : Number
         }]
+    },
+    date: {
+        type:String,
+        default: ()=>moment().format("YYYY-MM-DD")
     }
 }, {
-    timestamps: {createdAt: 'date'},
+    timestamps: true,
 });
 
 const Statistic = mongoose.model('Statistic', statisticSchema);

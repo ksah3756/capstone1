@@ -27,8 +27,14 @@ router.route('/:id').get((req,res)=>{
     .catch(err=>res.status(400).json('Error: ' + err));
 });
 
-router.route('/:date').get((req,res)=>{
-    Data.findById(req.params.date)
+router.route('/score/:score').get((req,res)=>{
+    Data.find({score: req.params.score})
+    .then(data=>res.json(data))
+    .catch(err=>res.status(400).json('Error: ' + err));
+});
+
+router.route('/date/:date').get((req,res)=>{
+    Data.find({date: req.params.date})
     .then(data=>res.json(data))
     .catch(err=>res.status(400).json('Error: ' + err));
 });
@@ -39,8 +45,8 @@ router.route('/:id').delete((req,res)=>{
     .catch(err=>res.status(400).json('Error: ' + err));
 });
 
-router.route('/:date').delete((req,res)=>{
-    Data.findByIdAndDelete(req.params.date)
+router.route('/date/:date').delete((req,res)=>{
+    Data.find({date: req.params.date})
     .then(()=>res.json('Data deleted.'))
     .catch(err=>res.status(400).json('Error: ' + err));
 });
