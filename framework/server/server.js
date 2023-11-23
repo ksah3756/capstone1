@@ -2,7 +2,7 @@
 const express = require("express");
 
 // mongodb 연결
-const connect = require('./schemas');
+const connect = require('./models');
 connect();
 //express를 실행하여 app object를 초기화 
 const app = express();
@@ -10,7 +10,7 @@ const cors = require("cors");
 require("dotenv").config({ path: "./config.env" });
 
 // 사용할 포트 번호를 port 변수에
-const = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 
 const indexRouter = require('./routes');
 const usersRouter = require('./routes/users');

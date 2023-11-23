@@ -1,6 +1,6 @@
 const express = require('express');
-const User = require('../schemas/user');
-const Comment = require('../schemas/comment');
+const User = require('../models/user');
+const Comment = require('../models/comment');
 const router = express.Router();
 
 router.route('/')
