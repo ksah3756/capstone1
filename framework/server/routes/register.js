@@ -1,5 +1,4 @@
 const express = require("express"); 
-const mongoose = require("mongoose");
 const User = require("../models/user"); // User model 불러오기
 const router = express.Router();           // express의 Router 사용
 const bcrypt = require("bcryptjs");        // 암호화 모듈
