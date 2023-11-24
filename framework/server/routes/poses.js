@@ -7,7 +7,7 @@ router.route('/:id')
   .get(async (req, res, next) => {
     try {
         const poses = await Pose.find({user_id: req.params.id}); // 해당 계정의 Pose 컬렉션 모두 가져오기
-        res.json(poses);
+        res.json(poses); // json 형식으로 response 보내기
     } catch (err) {
       console.error(err);
       next(err);

@@ -15,12 +15,16 @@ const port = process.env.PORT || 5000;
 // const indexRouter = require('./routes');
 const posesRouter = require('./routes/poses');
 const scoresRouter = require('./routes/scores');
+const registerRouter = require('./routes/register');
+const tokenRouter = require('./routes/token');
 
 app.use(cors());
 app.use(express.json());
 // app.use('/', indexRouter);
 app.use('/poses', posesRouter);
 app.use('/scores', scoresRouter);
+app.use("/register", registerRouter);
+app.use("/token", tokenRouter);
 
 // port변수를 이용하여 포트에 node.js 서버를 연결
 app.listen(port, () => {
