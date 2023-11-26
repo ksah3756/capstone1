@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const { isEmail } = require('validator');
 const bcrypt = require('bcrypt');
-const middleware = require('../middleware/bycryptMiddleware')
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -37,12 +36,24 @@ const userSchema = new mongoose.Schema({
 
 // fire a function before doc saved to db(hashed password를 db에 저장하기 위해 사용)
 userSchema.pre('save', async function(next){
-    middleware.generateHashedPassword(next);
+    // bcryptMiddleware.generateHashedPassword(next);
+    const salt = await bcrypt.genSalt();  //salt값 생성(salt는 hash 알고리즘에 사용대는 랜덤 값)
+    this.password = await bcrypt.hash(this.password, salt); //이제 password가 hash화 됨(db에도 이 비밀번호가 저장됨)
+    next();
 })
 
 // static method to login user
 userSchema.statics.login = async function(user_id, password) {
-    middleware.login(user_id, password);
+    // bcryptMiddleware.login(user_id, password);
+    const user = await this.findOne({ user_id });  //user_id에 해당하는 것을 발견 못하면 정의 되지 않음
+    if (user) {
+        const auth = await bcrypt.compare(password, user.password)   //입력한 비번과 hashed 비번을 비교해줌+ match됐을 경우 auth는 true가 됨
+        if(auth){ 
+            return user;
+        }
+        throw Error('incorrect password');
+    }
+    throw Error('incorrect ID');
 }
 
 module.exports = mongoose.model('User', userSchema);
