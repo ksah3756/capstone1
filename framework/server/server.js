@@ -27,6 +27,7 @@ app.use(express.json());
 app.use(express.static('public'));
 app.use(cookieParser());
 
+app.set('views', '../client/src/views');
 app.set('view engine', 'ejs');
 
 // app.use('/', indexRouter);
