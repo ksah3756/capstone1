@@ -3,6 +3,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
  // We import all the components we need in our app
 import Navbar from "./components/navbar";
+import poseNet from "./poseNet/pose";
  const App = () => {
  return (
    <div>
@@ -12,7 +13,7 @@ import Navbar from "./components/navbar";
        <Route exact path="/" element={<RecordList />} />
        <Route path="/edit/:id" element={<Edit />} />
        <Route path="/create" element={<Create />} />
-        */}
+ */}
      </Routes>
    </div>
  );

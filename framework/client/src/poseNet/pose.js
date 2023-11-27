@@ -3,9 +3,12 @@ import "./App.css";
 import * as tf from "@tensorflow/tfjs";
 import * as posenet from "@tensorflow-models/posenet";
 import Webcam from "react-webcam";
-import {drawKeypoints, drawSkeleton} from "./utilities";
+import {drawKeypoints, drawSkeleton, drawWrongKeypoint} from "./utilities";
 
-export function poseNet(webcamRef, canvasRef) {
+export function PoseNet() {
+    const webcamRef = useRef(null);
+    const canvasRef = useRef(null);
+
     //  Load posenet
     const runPosenet = async () => {
     const net = await posenet.load({
@@ -37,8 +40,8 @@ export function poseNet(webcamRef, canvasRef) {
         const pose = await net.estimateSinglePose(video);
         console.log(pose);
   
-        drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
-        calculateKeypoints(pose["keypoints"]); 
+        calculateKeypoints(pose["keypoints"], videoWidth, videoHeight, canvasRef); 
+        //drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
       }
     };
   
@@ -52,7 +55,11 @@ export function poseNet(webcamRef, canvasRef) {
       drawSkeleton(pose["keypoints"], 0.5, ctx);
     };
 
-    const calculateKeypoints = (keypoints) => {
+    const calculateKeypoints = (keypoints, videoWidth, videoHeight, canvas) => {
+      const ctx = canvas.current.getContext("2d");
+      canvas.current.width = videoWidth;
+      canvas.current.height = videoHeight;
+
       // 사용자의 오른쪽을 촬영중이라면 rightsideIndex == 1
       var rightSideIndex = 0;
       if (keypoints[3].score < keypoints[4].score){
@@ -68,44 +75,55 @@ export function poseNet(webcamRef, canvasRef) {
       const keypoint_knee = keypoints[13 + rightSideIndex];
       const keypoint_ankle = keypoints[15 + rightSideIndex];
 
-      var wrong_part = [];
-      var poseScore = 1;
-
-      // knee angle calculation
-      var angle_knee = calculate_angle(keypoint_hip.position, keypoint_knee.position, keypoint_ankle.position);
-      angle_knee = 180 - angle_knee;
-      //console.log("angle_knee: " + angle_knee);
-      if (angle_knee >= 90 && angle_knee <= 130){
-        wrong_part.push("knee");
-        poseScore += 1;
-      }
-
-      // Hip angle calculation
-      var angle_hip = calculate_angle(keypoint_shoulder.position, keypoint_hip.position, keypoint_knee.position);
-      //console.log("angle_hip: " + angle_hip);
-      if (angle_hip >= 90 && angle_hip <= 120){
-        wrong_part.push("hip");
-        poseScore += 1;
-      }
+      var poseScore = 5;
+      var neck_flag = true;
+      var hip_flag = true;
+      var elbow_flag = true;
+      var knee_flag = true;
 
       // neck angle calculation
       var angle_neck = calculate_angle(keypoint_ear.position, keypoint_shoulder.position, keypoint_hip.position);
       angle_neck = 180 - angle_neck;
-      //console.log("angle_neck " + angle_neck);
-      if (angle_neck >= 0 && angle_neck <= 15){
-        wrong_part.push("neck");
-        poseScore += 1;
+      if (angle_neck < 0 || angle_neck > 15){
+        neck_flag = false;
+        poseScore -= 1;
+        const newX = (keypoint_ear.position.x + keypoint_shoulder.position.x) / 2;
+        const newY = (keypoint_ear.position.y + keypoint_shoulder.position.y) / 2;
+        drawWrongKeypoint({y: newY, x: newX}, ctx);
+        console.log("angle_neck " + angle_neck);
       }
 
       // Elbow angle
       var angle_elbow = calculate_angle(keypoint_shoulder.position, keypoint_elbow.position, keypoint_wrist.position);
-      //console.log("angle_elbow: " + angle_elbow);
-      if (angle_elbow >= 90 && angle_elbow <= 120){
-        wrong_part.push("elbow");
-        poseScore += 1;
+      if (angle_elbow < 90 || angle_elbow > 120){
+        elbow_flag = false;
+        poseScore -= 1;
+        drawWrongKeypoint(keypoint_elbow.position, ctx);
+        console.log("angle_elbow: " + angle_elbow);
       }
-      //console.log("Pose Score: " + poseScore);
 
+      // Hip angle calculation
+      var angle_hip = calculate_angle(keypoint_shoulder.position, keypoint_hip.position, keypoint_knee.position);
+      if (angle_hip < 90 || angle_hip > 120){
+        hip_flag = false;
+        poseScore -= 1;
+        const newX = (keypoint_shoulder.position.x + keypoint_hip.position.x) / 2;
+        const newY = (keypoint_shoulder.position.y + keypoint_hip.position.y) / 2;
+        drawWrongKeypoint({y: newY, x: newX}, ctx);
+        console.log("angle_hip: " + angle_hip);
+      }
+
+      // knee angle calculation
+      var angle_knee = calculate_angle(keypoint_hip.position, keypoint_knee.position, keypoint_ankle.position);
+      angle_knee = 180 - angle_knee;
+      if (angle_knee < 90 || angle_knee > 130){
+        knee_flag = false;
+        poseScore -= 1;
+        drawWrongKeypoint(keypoint_knee.position, ctx);
+        console.log("angle_knee: " + angle_knee);
+      }
+
+      console.log("Pose Score: " + poseScore);
     };
 
     // 세 점을 이용해서 각도 계산. 각도는 B를 중심으로 계산
@@ -120,4 +138,42 @@ export function poseNet(webcamRef, canvasRef) {
     };
 
     runPosenet();
+
+    return {webcamRef, canvasRef};
+    // 화면에 표시하는 부분. 디자인에 맞게 수정 필요
+    /*return (
+      <div className="App">
+      <header className="App-header">
+        <Webcam
+          ref={webcamRef}
+          style={{
+            position: "absolute",
+            marginLeft: "auto",
+            marginRight: "auto",
+            left: 0,
+            right: 0,
+            textAlign: "center",
+            zindex: 9,
+            width: 640,
+            height: 480,
+          }}
+        />
+
+        <canvas
+          ref={canvasRef}
+          style={{
+            position: "absolute",
+            marginLeft: "auto",
+            marginRight: "auto",
+            left: 0,
+            right: 0,
+            textAlign: "center",
+            zindex: 9,
+            width: 640,
+            height: 480,
+          }}
+        />
+      </header>
+    </div>
+    );*/
 }
