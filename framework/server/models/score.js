@@ -10,7 +10,6 @@ const scoreSchema = new Schema({
   },
   // 0~4까지 ratio 저장
   kneck_score_ratio: Number,
-  elbow_score_ratio: Number,
   hip_score_ratio: Number,
   knee_score_ratio: Number,
   date: {

@@ -18,7 +18,6 @@ exports.createScores = async (req, res, next) => {
     const score = await Score.create({
       user_id: req.params.id,
       kneck_score_ratio: Math.round((counts.kneckCnt / counts.totalCnt) * 10000) / 100,
-      elbow_score_ratio: Math.round((counts.elbowCnt / counts.totalCnt) * 10000) / 100,
       hip_score_ratio: Math.round((counts.hipCnt / counts.totalCnt) * 10000) / 100,
       knee_score_ratio: Math.round((counts.kneeCnt / counts.totalCnt) * 10000) / 100,
     });
@@ -43,14 +42,12 @@ const getPoseCount = async (condition) => {
 const calculateScores = async (userId, date) => {
   const totalCnt = await getPoseCount({ user_id: userId, date });
   const kneckCnt = await getPoseCount({ user_id: userId, date, kneck: true });
-  const elbowCnt = await getPoseCount({ user_id: userId, date, elbow: true });
   const hipCnt = await getPoseCount({ user_id: userId, date, hip: true });
   const kneeCnt = await getPoseCount({ user_id: userId, date, knee: true });
 
   return {
     totalCnt,
     kneckCnt,
-    elbowCnt,
     hipCnt,
     kneeCnt,
   };

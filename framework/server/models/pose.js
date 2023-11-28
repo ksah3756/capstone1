@@ -8,7 +8,6 @@ const poseSchema = new Schema({
     required: true,
   },
   kneck: Boolean,
-  elbow : Boolean,
   hip: Boolean,
   knee: Boolean,
   date: {

@@ -15,7 +15,6 @@ exports.createPose = async (req, res, next) => {
     const pose = await Pose.create({
       user_id: req.body.id,
       kneck: req.body.kneck,
-      elbow: req.body.elbow,
       hip: req.body.hip,
       knee: req.body.knee,
     });

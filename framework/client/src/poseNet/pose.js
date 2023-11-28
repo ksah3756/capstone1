@@ -3,6 +3,7 @@ import * as tf from "@tensorflow/tfjs";
 import * as posenet from "@tensorflow-models/posenet";
 import Webcam from "react-webcam";
 import {drawKeypoints, drawSkeleton, drawWrongKeypoint} from "./utilities";
+import {postData} from "../api/poses";
 
 export function PoseNet() {
     const webcamRef = useRef(null);
@@ -78,7 +79,7 @@ export function PoseNet() {
       var poseScore = 5;
       var neck_flag = true;
       var hip_flag = true;
-      var elbow_flag = true;
+      //var elbow_flag = true;
       var knee_flag = true;
 
       // neck angle calculation
@@ -94,13 +95,13 @@ export function PoseNet() {
       }
 
       // Elbow angle
-      var angle_elbow = calculate_angle(keypoint_shoulder.position, keypoint_elbow.position, keypoint_wrist.position);
+      /*var angle_elbow = calculate_angle(keypoint_shoulder.position, keypoint_elbow.position, keypoint_wrist.position);
       if (angle_elbow < 90 || angle_elbow > 120){
         elbow_flag = false;
         poseScore -= 1;
         drawWrongKeypoint(keypoint_elbow.position, ctx);
         console.log("angle_elbow: " + angle_elbow);
-      }
+      }*/
 
       // Hip angle calculation
       var angle_hip = calculate_angle(keypoint_shoulder.position, keypoint_hip.position, keypoint_knee.position);
@@ -125,7 +126,7 @@ export function PoseNet() {
 
       console.log("Pose Score: " + poseScore);
 
-      const poseData = {neck: neck_flag, elbow: elbow_flag, hip: hip_flag, knee: knee_flag, score: poseScore};
+      const poseData = {neck: neck_flag, hip: hip_flag, knee: knee_flag};
 
       return poseData;
     };
@@ -141,12 +142,14 @@ export function PoseNet() {
       return deg;
     };
 
-    const sendDataToDB = (poseData) => {
-      
+    // DB에 데이터 전송하는 api 호출
+    const sendDataToDB = async (poseData) => {
+      await postData(poseData);
     };
 
     runPosenet();
 
+    // webcamRef, canvasRef를 입력으로 받아서 처리해도 되고, poseNet 함수  내에서 자체적으로 생성해서 처리해도 됨
     return {webcamRef, canvasRef};
     // 화면에 표시하는 부분. 디자인에 맞게 수정 필요
     /*return (

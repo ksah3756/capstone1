@@ -23,14 +23,13 @@ const PoseComponent= () => {
     fetchPoses(); // 컴포넌트가 마운트될 때 API GET 요청 보내기
   }, [userId, date]); // URI(http://localhost:5000/~) 가 바뀔때마다 get request 보냄
 
-  const postData = async () => {
+  const postData = async (inputPoseData) => {
     // poseData 예시, 실제로는 poseNet으로 계산한 결과 객체를 받아서 전달
     const poseData = {
       id: userId,
-      kneck: true,
-      elbow: false,
-      hip: true,
-      knee: true,
+      kneck: inputPoseData.kneck,
+      hip: inputPoseData.hip,
+      knee: inputPoseData.knee,
     }
     try {
       // POST 요청 보내기
