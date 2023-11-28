@@ -39,7 +39,8 @@ export function PoseNet() {
         const pose = await net.estimateSinglePose(video);
         console.log(pose);
   
-        calculateKeypoints(pose["keypoints"], videoWidth, videoHeight, canvasRef); 
+        const poseData = calculatePoseData(pose["keypoints"], videoWidth, videoHeight, canvasRef); 
+        sendDataToDB(poseData);
         //drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
       }
     };
@@ -54,7 +55,7 @@ export function PoseNet() {
       drawSkeleton(pose["keypoints"], 0.5, ctx);
     };
 
-    const calculateKeypoints = (keypoints, videoWidth, videoHeight, canvas) => {
+    const calculatePoseData = (keypoints, videoWidth, videoHeight, canvas) => {
       const ctx = canvas.current.getContext("2d");
       canvas.current.width = videoWidth;
       canvas.current.height = videoHeight;
@@ -123,6 +124,10 @@ export function PoseNet() {
       }
 
       console.log("Pose Score: " + poseScore);
+
+      const poseData = {neck: neck_flag, elbow: elbow_flag, hip: hip_flag, knee: knee_flag, score: poseScore};
+
+      return poseData;
     };
 
     // 세 점을 이용해서 각도 계산. 각도는 B를 중심으로 계산
@@ -134,6 +139,10 @@ export function PoseNet() {
       var deg = rad * (180 / Math.PI);
 
       return deg;
+    };
+
+    const sendDataToDB = (poseData) => {
+      
     };
 
     runPosenet();

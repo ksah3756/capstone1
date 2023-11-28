@@ -1,13 +1,13 @@
 import React, { useRef } from "react";
 import "./App.css";
 import Webcam from "react-webcam";
-import {poseNet} from "./pose"
+import {PoseNet} from "./pose"
 
 function App() {
-  const webcamRef = useRef(null);
-  const canvasRef = useRef(null);
+  //const webcamRef = useRef(null);
+  //const canvasRef = useRef(null);
 
-  poseNet(webcamRef, canvasRef);
+  const {webcamRef, canvasRef} = PoseNet();
 
   return (
     <div className="App">
