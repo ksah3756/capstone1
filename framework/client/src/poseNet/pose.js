@@ -70,8 +70,8 @@ export function PoseNet() {
       // 각 keypoint 값 불러오기
       const keypoint_ear = keypoints[3 + rightSideIndex];
       const keypoint_shoulder = keypoints[5 + rightSideIndex];
-      const keypoint_elbow = keypoints[7 + rightSideIndex];
-      const keypoint_wrist = keypoints[9 + rightSideIndex];
+      //const keypoint_elbow = keypoints[7 + rightSideIndex];
+      //const keypoint_wrist = keypoints[9 + rightSideIndex];
       const keypoint_hip = keypoints[11 + rightSideIndex];
       const keypoint_knee = keypoints[13 + rightSideIndex];
       const keypoint_ankle = keypoints[15 + rightSideIndex];
