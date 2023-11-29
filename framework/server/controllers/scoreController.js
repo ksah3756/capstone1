@@ -40,10 +40,10 @@ const getPoseCount = async (condition) => {
 };
 
 const calculateScores = async (userId, date) => {
-  const totalCnt = await getPoseCount({ user_id: userId, date });
-  const kneckCnt = await getPoseCount({ user_id: userId, date, kneck: true });
-  const hipCnt = await getPoseCount({ user_id: userId, date, hip: true });
-  const kneeCnt = await getPoseCount({ user_id: userId, date, knee: true });
+  const totalCnt = await getPoseCount({ user_id: userId, date: date });
+  const kneckCnt = await getPoseCount({ user_id: userId, date: date, kneck: true });
+  const hipCnt = await getPoseCount({ user_id: userId, date: date, hip: true });
+  const kneeCnt = await getPoseCount({ user_id: userId, date: date, knee: true });
 
   return {
     totalCnt,

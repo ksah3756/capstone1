@@ -2,12 +2,15 @@ import React, { useRef } from "react";
 import * as tf from "@tensorflow/tfjs";
 import * as posenet from "@tensorflow-models/posenet";
 import Webcam from "react-webcam";
-import {drawKeypoints, drawSkeleton, drawWrongKeypoint} from "./utilities";
-import {postData} from "../api/poses";
+import { drawKeypoints, drawSkeleton, drawWrongKeypoint } from "./utilities";
+import { postPoseData } from "../api/poses";
+import { useParams } from "react-router-dom";
 
 export function PoseNet() {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
+
+    const { userId } = useParams();
 
     //  Load posenet
     const runPosenet = async () => {
@@ -41,7 +44,8 @@ export function PoseNet() {
         console.log(pose);
   
         const poseData = calculatePoseData(pose["keypoints"], videoWidth, videoHeight, canvasRef); 
-        sendDataToDB(poseData);
+        // user_id를 url의 params에서 가져와야 하는데
+        sendDataToDB(userId, poseData);
         //drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
       }
     };
@@ -142,9 +146,9 @@ export function PoseNet() {
       return deg;
     };
 
-    // DB에 데이터 전송하는 api 호출
-    const sendDataToDB = async (poseData) => {
-      await postData(poseData);
+    
+    const sendDataToDB = async (userId, poseData) => {
+      await postPoseData(userId, poseData);
     };
 
     runPosenet();
