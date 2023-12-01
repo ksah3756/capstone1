@@ -19,7 +19,7 @@ import SignupForm from "./pages/SignupForm";
 				<Route path="/" element={<Home />} />
 				<Route path="/login" element={<LoginForm />} />
 				<Route path="/signup" element={<SignupForm />} />
-				<Route path="/posenet" element={<PoseNet />} />
+				<Route path="/poses" element={<PoseNet />} />
 			</Routes>
 		</UserProvider>
 	</BrowserRouter>

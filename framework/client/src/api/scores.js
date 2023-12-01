@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-// 여기에 인자로 user_id, date를 넘겨야겠는데
-const ScoreComponent = (userId, date) => {
+const ScoreComponent = (props) => {
     // 근데 이건 scores 리스트가 만들어질 필요가 있나?
   const [scores, setScores] = useState(); // undefined로 해도 되나
 
@@ -10,7 +9,7 @@ const ScoreComponent = (userId, date) => {
     // GET 요청 보내기
     const fetchScores = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/scores/${userId}/${date}`);
+        const response = await axios.get(`http://localhost:5000/scores/${props.user_id}/${props.date}`);
         setScores(response.data);
       } catch (error) {
         console.error(error);
@@ -18,12 +17,12 @@ const ScoreComponent = (userId, date) => {
     };
 
     fetchScores(); // 컴포넌트가 마운트될 때 API GET 요청 보내기
-  }, [userId, date]);
+  }, [props.user_id, props.date]);
 
   const postScoresData = async () => {
     try {
       // POST 요청 보내기
-      const response = await axios.post(`http://localhost:5000/scores/${userId}/${date}`);
+      const response = await axios.post(`http://localhost:5000/scores/${props.user_id}/${props.date}`, {user_id: props.user_id, date: props.date});
       console.log(response.data); // POST 요청 응답 데이터 확인
     } catch (error) {
       console.error(error);

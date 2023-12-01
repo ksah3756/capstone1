@@ -1,16 +1,17 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import * as tf from "@tensorflow/tfjs";
 import * as posenet from "@tensorflow-models/posenet";
 import Webcam from "react-webcam";
 import { drawKeypoints, drawSkeleton, drawWrongKeypoint } from "./utilities";
 import { postPoseData } from "../api/poses";
-import { useParams } from "react-router-dom";
+import { UserContext } from '../contexts/UserContext';
+import ScoreComponent  from "../api/scores";
 
 const PoseNet = () => {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
 
-    const { userId } = useParams();
+    const { loggedInUser } = useContext(UserContext);
 
     //  Load posenet
     const runPosenet = async () => {
@@ -21,7 +22,7 @@ const PoseNet = () => {
       //
       setInterval(() => {
         detect(net);
-      }, 1000); // 1000ms마다 자세 추정
+      }, 5000); // 5초 마다 자세 추정
     };
   
     const detect = async (net) => {
@@ -45,7 +46,8 @@ const PoseNet = () => {
   
         const poseData = calculatePoseData(pose["keypoints"], videoWidth, videoHeight, canvasRef); 
         // user_id를 url의 params에서 가져와야 하는데
-        sendDataToDB(userId, poseData);
+    
+        sendDataToDB(loggedInUser, poseData);
         //drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
       }
     };
@@ -130,7 +132,8 @@ const PoseNet = () => {
 
       console.log("Pose Score: " + poseScore);
 
-      const poseData = {neck: neck_flag, hip: hip_flag, knee: knee_flag};
+      // user_id 필드도 넘겨야 함
+      const poseData = { user_id: loggedInUser, neck: neck_flag, hip: hip_flag, knee: knee_flag};
 
       return poseData;
     };
@@ -188,6 +191,8 @@ const PoseNet = () => {
             height: 480,
           }}
         />
+        {/* 일단 임시로 여기에 score 데이터를 post 할 수 있도록 컴포넌트를 추가했는데 date를 변수로 받을 수 있도록 해야함 */}
+        <ScoreComponent user_id={loggedInUser} date="2023-12-01"/>
       </header>
     </div>
     );

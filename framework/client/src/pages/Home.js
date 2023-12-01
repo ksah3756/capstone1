@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 
 const Home = () => {
   const { loggedInUser } = useContext(UserContext);
   const navigate = useNavigate();
+  // const location = useLocation();
 
   const handleLinkClick = () => {
     if (loggedInUser) {
