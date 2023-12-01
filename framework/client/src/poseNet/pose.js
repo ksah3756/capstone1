@@ -6,7 +6,7 @@ import { drawKeypoints, drawSkeleton, drawWrongKeypoint } from "./utilities";
 import { postPoseData } from "../api/poses";
 import { useParams } from "react-router-dom";
 
-export function PoseNet() {
+const PoseNet = () => {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
 
@@ -154,11 +154,11 @@ export function PoseNet() {
     runPosenet();
 
     // webcamRef, canvasRef를 입력으로 받아서 처리해도 되고, poseNet 함수  내에서 자체적으로 생성해서 처리해도 됨
-    return {webcamRef, canvasRef};
+    // return {webcamRef, canvasRef};
     // 화면에 표시하는 부분. 디자인에 맞게 수정 필요
-    /*return (
-      <div className="App">
-      <header className="App-header">
+    return (
+      <div className="PoseNet">
+      <header className="PoseNet-header">
         <Webcam
           ref={webcamRef}
           style={{
@@ -190,5 +190,7 @@ export function PoseNet() {
         />
       </header>
     </div>
-    );*/
+    );
 }
+
+export default PoseNet;

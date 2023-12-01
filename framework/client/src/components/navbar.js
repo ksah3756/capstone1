@@ -1,37 +1,40 @@
-import React from "react";
-// We import bootstrap to make our application look better.
-import "bootstrap/dist/css/bootstrap.css";
- // We import NavLink to utilize the react router.
-import { NavLink } from "react-router-dom";
- // Here, we display our Navbar
-export default function Navbar() {
- return (
-   <div>
-     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-       <NavLink className="navbar-brand" to="/">
-       <img style={{"width" : 25 + '%'}} src="https://d3cy9zhslanhfa.cloudfront.net/media/3800C044-6298-4575-A05D5C6B7623EE37/4B45D0EC-3482-4759-82DA37D8EA07D229/webimage-8A27671A-8A53-45DC-89D7BF8537F15A0D.png"></img>
-       </NavLink>
-       <button
-         className="navbar-toggler"
-         type="button"
-         data-toggle="collapse"
-         data-target="#navbarSupportedContent"
-         aria-controls="navbarSupportedContent"
-         aria-expanded="false"
-         aria-label="Toggle navigation"
-       >
-         <span className="navbar-toggler-icon"></span>
-       </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-         <ul className="navbar-nav ml-auto">
-           <li className="nav-item">
-             <NavLink className="nav-link" to="/create">
-               Create Record
-             </NavLink>
-           </li>
-         </ul>
-       </div>
-     </nav>
-   </div>
- );
-}
+import React, { useContext } from 'react';
+// import { useState } from 'react'; // 사용자 상태를 관리하기 위해 useState를 가져옵니다.
+import '../styles/styles.css'; // 스타일 시트를 가져옵니다.
+import { UserContext } from '../contexts/UserContext';
+
+const NavBar = () => {
+  // 사용자 상태를 관리하는 useState 훅을 사용합니다.
+  /*
+  const [user, setUser] = useState(null); // 기본적으로는 사용자가 없는(null) 상태입니다.
+
+  const handleLogin = () => {
+    // 실제로는 로그인 프로세스를 처리하고, 로그인이 성공하면 setUser를 사용하여 user 상태를 업데이트합니다.
+    // 예를 들어, 사용자가 로그인 성공 시 user 정보를 받아온다면 se tUser(userInfo)와 같이 사용합니다.
+    const userInfo = { user_id: 'username' }; // 로그인 후 받아온 사용자 정보 예시
+    setUser(userInfo); // user 상태를 업데이트합니다.
+  };
+  */
+  const { loggedInUser } = useContext(UserContext);
+
+  return (
+    <nav>
+      <h1><a href="/">Improve your sitting posture</a></h1>  
+      <ul>
+        {loggedInUser ? ( // 사용자가 있으면(로그인 상태면) 이걸 어떻게 하지?
+          <>
+            <li>Welcome, {loggedInUser}</li> {/* 사용자 아이디를 화면에 출력합니다. */}
+            <li><a href="/logout">Log out</a></li>
+          </>
+        ) : ( // 사용자가 없으면(로그아웃 상태면)
+          <>
+            <li><a href="/login">Log in</a></li>
+            <li><a href="/signup" className="btn">Sign up</a></li>
+          </>
+        )}
+      </ul>
+    </nav>
+  );
+};
+
+export default NavBar;

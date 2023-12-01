@@ -27,9 +27,6 @@ app.use(express.json());
 app.use(express.static('public'));
 app.use(cookieParser());
 
-// 템플릿 엔진을 ejs로 설정
-app.set('view engine', 'ejs');
-
 // app.use('/', indexRouter);
 app.use('/poses', posesRouter);
 app.use('/scores', scoresRouter);
