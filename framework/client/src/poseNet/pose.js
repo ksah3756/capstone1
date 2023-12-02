@@ -1,17 +1,20 @@
-import React, { useRef, useContext } from "react";
+import React, { useRef, useContext, useState } from "react";
 import * as tf from "@tensorflow/tfjs";
 import * as posenet from "@tensorflow-models/posenet";
 import Webcam from "react-webcam";
 import { drawKeypoints, drawSkeleton, drawWrongKeypoint } from "./utilities";
 import { postPoseData } from "../api/poses";
 import { UserContext } from '../contexts/UserContext';
+import { DiagnosisContext } from "../contexts/diagnosisContext";
 import ScoreComponent  from "../api/scores";
+import { diagnosisCurrent } from "./diagnosis";
 
 const PoseNet = () => {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
 
     const { loggedInUser } = useContext(UserContext);
+    const { setDiagnosis } = useContext(DiagnosisContext);
 
     //  Load posenet
     const runPosenet = async () => {
@@ -47,7 +50,9 @@ const PoseNet = () => {
         const poseData = calculatePoseData(pose["keypoints"], videoWidth, videoHeight, canvasRef); 
         // user_id를 url의 params에서 가져와야 하는데
     
-        sendDataToDB(loggedInUser, poseData);
+        sendDataToDB(loggedInUser, poseData_temp);
+        const diagnosis = diagnosisCurrent(poseData);
+        setDiagnosis(diagnosis);
         //drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
       }
     };
