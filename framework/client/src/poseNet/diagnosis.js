@@ -77,23 +77,29 @@ export function diagnosisResult(scores) {
 }
 
 // 현재 상태에 표시하기 위한 진단
-// 진단 내용을 각 부위에 dictionary 형태로 저장
-// ex) {neck: "목과 어깨 통증 및 두통 발생\n목 디스크 발생", back: "허리 통증 및 약화\n허리 디스크 발생"}
+// 진단 내용과 자세 점수를 각 부위에 dictionary 형태로 저장 (자세 점수: 1 = 위험, 2 = 주의 등등)
+// ex) {poseScore: 3, neck: "목과 어깨 통증 및 두통 발생\n목 디스크 발생", back: "허리 통증 및 약화\n허리 디스크 발생"}
 // 해당 dictionary에 key 값이 존재하면 잘못된 부분, key 값이 존재하지 않으면 올바른 부분
 export function diagnosisCurrent(poseData){
     let diagnosis = {};
+    let poseScore = 4;
 
     if (!poseDate.neck){
         diagnosis['neck'] = "목과 어깨 통증 및 두통 발생\n목 디스크 발생";
+        poseScore -= 1;
     }
 
     if (!poseData.hip){
         diagnosis['back'] = "허리 통증 및 약화\n허리 디스크 발생";
+        poseScore -= 1;
     }
 
     if (!poseData.knee){
         diagnosis['knee'] = "무릎 통증 및 부기 발생\n연골 손상, 관절염 발생";
+        poseScore -= 1;
     }
 
+    diagnosis['poseScore'] = poseScore;
+    
     return diagnosis;
 }
