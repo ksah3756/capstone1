@@ -1,37 +1,36 @@
-import React from "react";
-// We import bootstrap to make our application look better.
-import "bootstrap/dist/css/bootstrap.css";
- // We import NavLink to utilize the react router.
-import { NavLink } from "react-router-dom";
- // Here, we display our Navbar
-export default function Navbar() {
- return (
-   <div>
-     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-       <NavLink className="navbar-brand" to="/">
-       <img style={{"width" : 25 + '%'}} src="https://d3cy9zhslanhfa.cloudfront.net/media/3800C044-6298-4575-A05D5C6B7623EE37/4B45D0EC-3482-4759-82DA37D8EA07D229/webimage-8A27671A-8A53-45DC-89D7BF8537F15A0D.png"></img>
-       </NavLink>
-       <button
-         className="navbar-toggler"
-         type="button"
-         data-toggle="collapse"
-         data-target="#navbarSupportedContent"
-         aria-controls="navbarSupportedContent"
-         aria-expanded="false"
-         aria-label="Toggle navigation"
-       >
-         <span className="navbar-toggler-icon"></span>
-       </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-         <ul className="navbar-nav ml-auto">
-           <li className="nav-item">
-             <NavLink className="nav-link" to="/create">
-               Create Record
-             </NavLink>
-           </li>
-         </ul>
-       </div>
-     </nav>
-   </div>
- );
-}
+import React, { useContext } from 'react';
+// import { useState } from 'react'; // 사용자 상태를 관리하기 위해 useState를 가져옵니다.
+import '../styles/styles.css'; // 스타일 시트를 가져옵니다.
+import { UserContext } from '../contexts/UserContext';
+import { Link } from 'react-router-dom';
+
+const NavBar = () => {
+  
+  const { loggedInUser, setLoggedInUser } = useContext(UserContext);
+
+  // 로그아웃 핸들러
+  const handleLogout = () => {
+    setLoggedInUser(null); // loggedInUser 상태를 null로 초기화
+  };
+
+  return (
+    <nav>
+      <h1><Link to="/">Improve your sitting posture</Link></h1>  
+      <ul>
+        {loggedInUser ? ( // 사용자가 있으면(로그인 상태면) 이걸 어떻게 하지?
+          <>
+            <li>Welcome, {loggedInUser}</li> {/* 사용자 아이디를 화면에 출력합니다. */}
+            <li><Link to="/" onClick={handleLogout}>Log out</Link></li>
+          </>
+        ) : ( // 사용자가 없으면(로그아웃 상태면)
+          <>
+            <li><Link to="/login">Log in</Link></li>
+            <li><Link to="/signup" className="btn">Sign up</Link></li>
+          </>
+        )}
+      </ul>
+    </nav>
+  );
+};
+
+export default NavBar;

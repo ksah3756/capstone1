@@ -45,7 +45,7 @@ userSchema.pre('save', async function(next){
 // static method to login user
 userSchema.statics.login = async function(user_id, password) {
     // bcryptMiddleware.login(user_id, password);
-    const user = await this.findOne({ user_id });  //user_id에 해당하는 것을 발견 못하면 정의 되지 않음
+    const user = await this.findOne({ user_id: user_id });  //user_id에 해당하는 것을 발견 못하면 정의 되지 않음
     if (user) {
         const auth = await bcrypt.compare(password, user.password)   //입력한 비번과 hashed 비번을 비교해줌+ match됐을 경우 auth는 true가 됨
         if(auth){ 

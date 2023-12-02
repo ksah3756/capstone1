@@ -3,7 +3,7 @@ const Pose = require('../models/pose');
 
 exports.getScoresByDate = async (req, res, next) => {
   try {
-    const scores = await Score.find({ user_id: req.params.id, date: req.params.date });
+    const scores = await Score.find({ user_id: req.params.user_id, date: req.params.date });
     res.json(scores);
   } catch (err) {
     console.error(err);
@@ -13,12 +13,11 @@ exports.getScoresByDate = async (req, res, next) => {
 
 exports.createScores = async (req, res, next) => {
   try {
-    const counts = await calculateScores(req.params.id, req.params.date);
+    const counts = await calculateScores(req.body.user_id, req.body.date);
 
     const score = await Score.create({
-      user_id: req.params.id,
-      kneck_score_ratio: Math.round((counts.kneckCnt / counts.totalCnt) * 10000) / 100,
-      elbow_score_ratio: Math.round((counts.elbowCnt / counts.totalCnt) * 10000) / 100,
+      user_id: req.body.user_id,
+      neck_score_ratio: Math.round((counts.neckCnt / counts.totalCnt) * 10000) / 100,
       hip_score_ratio: Math.round((counts.hipCnt / counts.totalCnt) * 10000) / 100,
       knee_score_ratio: Math.round((counts.kneeCnt / counts.totalCnt) * 10000) / 100,
     });
@@ -41,16 +40,14 @@ const getPoseCount = async (condition) => {
 };
 
 const calculateScores = async (userId, date) => {
-  const totalCnt = await getPoseCount({ user_id: userId, date });
-  const kneckCnt = await getPoseCount({ user_id: userId, date, kneck: true });
-  const elbowCnt = await getPoseCount({ user_id: userId, date, elbow: true });
-  const hipCnt = await getPoseCount({ user_id: userId, date, hip: true });
-  const kneeCnt = await getPoseCount({ user_id: userId, date, knee: true });
+  const totalCnt = await getPoseCount({ user_id: userId, date: date });
+  const neckCnt = await getPoseCount({ user_id: userId, date: date, neck: true });
+  const hipCnt = await getPoseCount({ user_id: userId, date: date, hip: true });
+  const kneeCnt = await getPoseCount({ user_id: userId, date: date, knee: true });
 
   return {
     totalCnt,
-    kneckCnt,
-    elbowCnt,
+    neckCnt,
     hipCnt,
     kneeCnt,
   };

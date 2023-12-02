@@ -1,12 +1,17 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import * as tf from "@tensorflow/tfjs";
 import * as posenet from "@tensorflow-models/posenet";
 import Webcam from "react-webcam";
-import {drawKeypoints, drawSkeleton, drawWrongKeypoint} from "./utilities";
+import { drawKeypoints, drawSkeleton, drawWrongKeypoint } from "./utilities";
+import { postPoseData } from "../api/poses";
+import { UserContext } from '../contexts/UserContext';
+import ScoreComponent  from "../api/scores";
 
-export function PoseNet() {
+const PoseNet = () => {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
+
+    const { loggedInUser } = useContext(UserContext);
 
     //  Load posenet
     const runPosenet = async () => {
@@ -17,7 +22,7 @@ export function PoseNet() {
       //
       setInterval(() => {
         detect(net);
-      }, 1000); // 1000ms마다 자세 추정
+      }, 5000); // 5초 마다 자세 추정
     };
   
     const detect = async (net) => {
@@ -40,7 +45,9 @@ export function PoseNet() {
         console.log(pose);
   
         const poseData = calculatePoseData(pose["keypoints"], videoWidth, videoHeight, canvasRef); 
-        sendDataToDB(poseData);
+        // user_id를 url의 params에서 가져와야 하는데
+    
+        sendDataToDB(loggedInUser, poseData);
         //drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
       }
     };
@@ -69,8 +76,8 @@ export function PoseNet() {
       // 각 keypoint 값 불러오기
       const keypoint_ear = keypoints[3 + rightSideIndex];
       const keypoint_shoulder = keypoints[5 + rightSideIndex];
-      const keypoint_elbow = keypoints[7 + rightSideIndex];
-      const keypoint_wrist = keypoints[9 + rightSideIndex];
+      //const keypoint_elbow = keypoints[7 + rightSideIndex];
+      //const keypoint_wrist = keypoints[9 + rightSideIndex];
       const keypoint_hip = keypoints[11 + rightSideIndex];
       const keypoint_knee = keypoints[13 + rightSideIndex];
       const keypoint_ankle = keypoints[15 + rightSideIndex];
@@ -78,7 +85,7 @@ export function PoseNet() {
       var poseScore = 5;
       var neck_flag = true;
       var hip_flag = true;
-      var elbow_flag = true;
+      //var elbow_flag = true;
       var knee_flag = true;
 
       // neck angle calculation
@@ -94,13 +101,13 @@ export function PoseNet() {
       }
 
       // Elbow angle
-      var angle_elbow = calculate_angle(keypoint_shoulder.position, keypoint_elbow.position, keypoint_wrist.position);
+      /*var angle_elbow = calculate_angle(keypoint_shoulder.position, keypoint_elbow.position, keypoint_wrist.position);
       if (angle_elbow < 90 || angle_elbow > 120){
         elbow_flag = false;
         poseScore -= 1;
         drawWrongKeypoint(keypoint_elbow.position, ctx);
         console.log("angle_elbow: " + angle_elbow);
-      }
+      }*/
 
       // Hip angle calculation
       var angle_hip = calculate_angle(keypoint_shoulder.position, keypoint_hip.position, keypoint_knee.position);
@@ -125,7 +132,8 @@ export function PoseNet() {
 
       console.log("Pose Score: " + poseScore);
 
-      const poseData = {neck: neck_flag, elbow: elbow_flag, hip: hip_flag, knee: knee_flag, score: poseScore};
+      // user_id 필드도 넘겨야 함
+      const poseData = { user_id: loggedInUser, neck: neck_flag, hip: hip_flag, knee: knee_flag};
 
       return poseData;
     };
@@ -141,17 +149,19 @@ export function PoseNet() {
       return deg;
     };
 
-    const sendDataToDB = (poseData) => {
-      
+    
+    const sendDataToDB = async (userId, poseData) => {
+      await postPoseData(userId, poseData);
     };
 
     runPosenet();
 
-    return {webcamRef, canvasRef};
+    // webcamRef, canvasRef를 입력으로 받아서 처리해도 되고, poseNet 함수  내에서 자체적으로 생성해서 처리해도 됨
+    // return {webcamRef, canvasRef};
     // 화면에 표시하는 부분. 디자인에 맞게 수정 필요
-    /*return (
-      <div className="App">
-      <header className="App-header">
+    return (
+      <div className="PoseNet">
+      <header className="PoseNet-header">
         <Webcam
           ref={webcamRef}
           style={{
@@ -181,7 +191,11 @@ export function PoseNet() {
             height: 480,
           }}
         />
+        {/* 일단 임시로 여기에 score 데이터를 post 할 수 있도록 컴포넌트를 추가했는데 date를 변수로 받을 수 있도록 해야함 */}
+        <ScoreComponent user_id={loggedInUser} date="2023-12-01"/>
       </header>
     </div>
-    );*/
+    );
 }
+
+export default PoseNet;

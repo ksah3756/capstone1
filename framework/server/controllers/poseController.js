@@ -13,9 +13,8 @@ exports.getAllPoses = async (req, res, next) => {
 exports.createPose = async (req, res, next) => {
   try {
     const pose = await Pose.create({
-      user_id: req.body.id,
-      kneck: req.body.kneck,
-      elbow: req.body.elbow,
+      user_id: req.body.user_id,
+      neck: req.body.neck,
       hip: req.body.hip,
       knee: req.body.knee,
     });

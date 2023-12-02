@@ -27,8 +27,6 @@ app.use(express.json());
 app.use(express.static('public'));
 app.use(cookieParser());
 
-app.set('view engine', 'ejs');
-
 // app.use('/', indexRouter);
 app.use('/poses', posesRouter);
 app.use('/scores', scoresRouter);
@@ -36,6 +34,7 @@ app.use('/scores', scoresRouter);
 // 로그인 관련 
 app.get('*', checkUser); //유저가 정상적으로 로그인 했을때, view를 로그인 한 것에 맞게 해주기 위함
 app.get('/', (req, res) => res.render('home')); //여기에도 requireAuth 함수를 넣어주면 홈페이지 자체도 로그인 해야 접속 가능하게 할 수 있다.
+// views폴더의 ejs파일이 렌더링 되고 html파일이 되어 이 파일을 response로 보냄
 app.get('/smoothies', requireAuth, (req, res) => res.render('smoothies'));  //Auth가 성공하면 requireAuth함수 내부의 next()에 의해 smoothies로 넘어감, 즉 인증 받아야 smoothies 페이지로 접속 가능
 app.use(authRoutes);
 
