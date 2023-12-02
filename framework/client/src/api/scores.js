@@ -1,23 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import axios from 'axios';
 
+export const fetchScores = async (user_id, date) => {
+  try {
+    const response = await axios.get(`http://localhost:5000/scores/${user_id}/${date}`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const ScoreComponent = (props) => {
-    // 근데 이건 scores 리스트가 만들어질 필요가 있나?
-  const [scores, setScores] = useState(); // undefined로 해도 되나
-
-  useEffect(() => {
-    // GET 요청 보내기
-    const fetchScores = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/scores/${props.user_id}/${props.date}`);
-        setScores(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchScores(); // 컴포넌트가 마운트될 때 API GET 요청 보내기
-  }, [props.user_id, props.date]);
 
   const postScoresData = async () => {
     try {

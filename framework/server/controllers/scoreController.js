@@ -41,9 +41,9 @@ const getPoseCount = async (condition) => {
 
 const calculateScores = async (userId, date) => {
   const totalCnt = await getPoseCount({ user_id: userId, date: date });
-  const neckCnt = await getPoseCount({ user_id: userId, date: date, neck: true });
-  const hipCnt = await getPoseCount({ user_id: userId, date: date, hip: true });
-  const kneeCnt = await getPoseCount({ user_id: userId, date: date, knee: true });
+  const neckCnt = await getPoseCount({ user_id: userId, date: date, neck: false });
+  const hipCnt = await getPoseCount({ user_id: userId, date: date, hip: false });
+  const kneeCnt = await getPoseCount({ user_id: userId, date: date, knee: false });
 
   return {
     totalCnt,
