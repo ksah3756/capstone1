@@ -37,7 +37,7 @@ const LoginForm = () => {
 
         // 일단은 로그인 성공 시 원래 기본 페이지로 돌아가는데
         // 페이지를 더 추가해서 로그인 성공하면 http://localhost:3000/user_id 이런 페이지로 이동할 수 있도록?
-        navigate('/'); // '/'에 해당하는 페이지로 이동
+        navigate('/', { state : {user_id: data.user} }); // '/'에 해당하는 페이지로 이동
       }
     } catch (err) {
       console.error(err);
