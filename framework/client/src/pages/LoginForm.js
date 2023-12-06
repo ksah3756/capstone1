@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const LoginForm = () => {
   const [userId, setUserId] = useState('');
@@ -18,13 +19,9 @@ const LoginForm = () => {
     setPasswordError('');
 
     try {
-      const res = await fetch('/login', {
-        method: 'POST',
-        body: JSON.stringify({ user_id: userId, password }),
-        headers: { 'Content-Type': 'application/json' }
-      });
-      const data = await res.json();
-      console.log(data);
+      const res = await axios.post('/login', { user_id: userId, password: password });
+      const data = res.data;
+      // console.log(data);
       if (data.errors) {
         setUserIdError(data.errors.user_id);
         setPasswordError(data.errors.password);

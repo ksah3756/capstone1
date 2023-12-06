@@ -17,7 +17,7 @@ export const fetchPoses = async (userId, date) => {
 export const postPoseData = async (userId, poseData) => {
   try {
     // 백엔드 서버의 엔드포인트 주소랑 일치해야 하는데 
-    const response = await axios.post(`http://localhost:5000/poses/${userId}`, poseData);
+    const response = await axios.post(`http://localhost:5000/poses/`, poseData);
     return response.data;
   } catch (error) {
     console.error(error);
