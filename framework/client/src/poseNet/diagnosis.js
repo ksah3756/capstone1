@@ -84,7 +84,7 @@ export function diagnosisCurrent(poseData){
     let diagnosis = {};
     let poseScore = 4;
 
-    if (!poseDate.neck){
+    if (!poseData.neck){
         diagnosis['neck'] = "목과 어깨 통증 및 두통 발생\n목 디스크 발생";
         poseScore -= 1;
     }

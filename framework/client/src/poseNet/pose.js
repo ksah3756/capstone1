@@ -8,6 +8,7 @@ import { UserContext } from '../contexts/UserContext';
 import { DiagnosisContext } from "../contexts/diagnosisContext";
 import ScoreComponent  from "../api/scores";
 import { diagnosisCurrent } from "./diagnosis";
+import moment from "moment";
 
 const PoseNet = () => {
     const webcamRef = useRef(null);
@@ -50,7 +51,7 @@ const PoseNet = () => {
         const poseData = calculatePoseData(pose["keypoints"], videoWidth, videoHeight, canvasRef); 
         // user_id를 url의 params에서 가져와야 하는데
     
-        sendDataToDB(loggedInUser, poseData_temp);
+        sendDataToDB(loggedInUser, poseData);
         const diagnosis = diagnosisCurrent(poseData);
         setDiagnosis(diagnosis);
         //drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
@@ -196,8 +197,8 @@ const PoseNet = () => {
             height: 480,
           }}
         />
-        {/* 일단 임시로 여기에 score 데이터를 post 할 수 있도록 컴포넌트를 추가했는데 date를 변수로 받을 수 있도록 해야함 */}
-        <ScoreComponent user_id={loggedInUser} date="2023-12-01"/>
+        {/* 오늘 날짜로 score ratio data를 db에 저장*/}
+        <ScoreComponent user_id={loggedInUser} date={moment().format('YYYY-MM-DD')}/>
       </header>
     </div>
     );
