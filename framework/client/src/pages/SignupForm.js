@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-
 const SignupForm = () => {
   const [name, setName] = useState('');
   const [userId, setUserId] = useState('');
@@ -19,8 +17,12 @@ const SignupForm = () => {
     setPasswordError('');
 
     try {
-      const res = await axios.post('http://localhost:5000/signup', { name: name, user_id: userId, email, password: password });
-      const data = res.data;
+      const res = await fetch('http://localhost:5000/signup', {
+        method: 'POST',
+        body: JSON.stringify({ name, user_id: userId, email, password }),
+        headers: { 'Content-Type': 'application/json' }
+      });
+      const data = await res.json();
       console.log(data);
       if (data.errors) {
         setNameError(data.errors.name);

@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import '../styles/styles.css'; // 스타일 시트를 가져옵니다.
 import { UserContext } from '../contexts/UserContext';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+//import axios from 'axios';
 
 const NavBar = () => {
   
@@ -16,6 +16,17 @@ const NavBar = () => {
       const response = await axios.get(`http://localhost:5000/logout`);
       console.log(response);
       */
+      const res = await fetch('/logout', {
+        method: 'GET',
+        credentials: 'include', // 쿠키를 전송하기 위해 credentials 옵션을 추가
+      });
+
+      if (res) {
+        console.log('logout success');
+      } else {
+        console.error('logout fail');
+      }
+
       setLoggedInUser(null); // loggedInUser 상태를 null로 초기화
     } catch (error) {
       console.error(error);
