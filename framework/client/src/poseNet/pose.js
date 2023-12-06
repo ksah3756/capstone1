@@ -1,21 +1,25 @@
-import React, { useRef, useContext, useState } from "react";
+import React, { useRef, useContext } from "react";
 import * as tf from "@tensorflow/tfjs";
 import * as posenet from "@tensorflow-models/posenet";
 import Webcam from "react-webcam";
 import { drawKeypoints, drawSkeleton, drawWrongKeypoint } from "./utilities";
 import { postPoseData } from "../api/poses";
 import { UserContext } from '../contexts/UserContext';
-import { DiagnosisContext } from "../contexts/diagnosisContext";
 import ScoreComponent  from "../api/scores";
 import { diagnosisCurrent } from "./diagnosis";
 import moment from "moment";
+
+let diagnosis = null;
+
+export const getDiagnosis = () => {
+  return diagnosis;
+};
 
 const PoseNet = () => {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
 
     const { loggedInUser } = useContext(UserContext);
-    const { setDiagnosis } = useContext(DiagnosisContext);
 
     //  Load posenet
     const runPosenet = async () => {
@@ -52,8 +56,7 @@ const PoseNet = () => {
         // user_id를 url의 params에서 가져와야 하는데
     
         sendDataToDB(loggedInUser, poseData);
-        const diagnosis = diagnosisCurrent(poseData);
-        setDiagnosis(diagnosis);
+        diagnosis = diagnosisCurrent(poseData);
         //drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
       }
     };
@@ -120,7 +123,7 @@ const PoseNet = () => {
       if (angle_hip < 90 || angle_hip > 120){
         hip_flag = false;
         poseScore -= 1;
-        const newX = (keypoint_shoulder.position.x + keypoint_hip.position.x) / 2;
+        const newX = (keypoint_shoulder.position.x + keypoint_hip.position.x) / 2 - 30;
         const newY = (keypoint_shoulder.position.y + keypoint_hip.position.y) / 2;
         drawWrongKeypoint({y: newY, x: newX}, ctx);
         console.log("angle_hip: " + angle_hip);
