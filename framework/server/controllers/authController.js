@@ -78,7 +78,7 @@ module.exports.login_post = async (req,res) =>{
         const token = createToken(user._id);
         res.cookie('jwt', token, { maxAge: maxAge * 1000});
         // 로그인 성공 시 user_id를 response로 넘김
-        res.status(200).json({ user: user.user_id });
+        res.status(200).json({ user: user._id, user_id: user_id });
     }
     catch (err) {
         const errors = handleErrors(err);
