@@ -126,7 +126,7 @@ export function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
 
 // Draw wrong part keypoints 
 export function drawWrongKeypoint({y, x}, ctx, scale = 1){
-  drawPoint(ctx, y * scale, x * scale, 6, color);
+  drawPoint(ctx, y * scale, x * scale, 10, color);
 }
 
 /**

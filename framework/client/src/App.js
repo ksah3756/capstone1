@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
  // We import all the components we need in our app
 import PoseNet from "./poseNet/pose";
 import { UserProvider } from './contexts/UserContext';
+import { DiagnosisProvider } from "./contexts/diagnosisContext";
 import NavBar from './components/navbar';
 import Home from './pages/Home';
 import LoginForm from "./pages/LoginForm";
@@ -14,6 +15,7 @@ import SignupForm from "./pages/SignupForm";
    <div>
      <BrowserRouter>
 		<UserProvider>
+		<DiagnosisProvider>
 			<NavBar />
 			<Routes>
 				<Route path="/" element={<Home />} />
@@ -21,6 +23,7 @@ import SignupForm from "./pages/SignupForm";
 				<Route path="/signup" element={<SignupForm />} />
 				<Route path="/poses" element={<PoseNet />} />
 			</Routes>
+		</DiagnosisProvider>
 		</UserProvider>
 	</BrowserRouter>
    </div>
