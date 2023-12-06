@@ -16,7 +16,7 @@ const ScoreComponent = (props) => {
   const postScoresData = async () => {
     try {
       // POST 요청 보내기
-      const response = await axios.post(`http://localhost:5000/scores/${props.user_id}/${props.date}`, {user_id: props.user_id, date: props.date});
+      const response = await axios.post(`http://localhost:5000/scores/`, {user_id: props.user_id, date: props.date});
       console.log(response.data); // POST 요청 응답 데이터 확인
     } catch (error) {
       console.error(error);
