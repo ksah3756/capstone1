@@ -23,19 +23,38 @@ const NavBar = () => {
     }
   };
 
+  // //로그인을 하면 바로 Home page 로 이동
+  // if (loggedInUser != null) {
+  //   return <Link to="/Home"></Link>;
+  // }
+
   return (
+    
     <nav>
-      <h1><Link to="/">Improve your sitting posture</Link></h1>  
+      <div class="flex lg:flex-1">
+        <a class="-m-1.5 p-1.5">
+          <img src="/img/logo.png" alt="Logo_img" style={{ width: 'auto', height: '50px', marginRight: '10px' }} />
+          
+          <img src="/img/logo_HealthyMe.png" alt="Logo_text" style={{ width: 'auto', height: '50px' }}/> 
+        </a>
+        
+      </div>
+      <ul tabIndex={0} className="menu menu-sm mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+        <li><Link to="/Home">홈</Link></li>
+        <li><Link to="/Current">현재 상태</Link></li>
+        <li><Link to="/PastData">과거 Data</Link></li>
+      </ul>
       <ul>
-        {loggedInUser ? ( // 사용자가 있으면(로그인 상태면) 이걸 어떻게 하지?
+        {loggedInUser ? ( // 사용자가 있으면(로그인 상태면) 아이디 표시
           <>
-            <li>Welcome, {loggedInUser}</li> {/* 사용자 아이디를 화면에 출력합니다. */}
-            <li><button onClick={handleLogout}>Log out</button></li>
+            <li><Link to="/" onClick={handleLogout}>Log out</Link></li>
+            <li><Link to="/Home"><a className="btn">{loggedInUser}님, 환영합니다</a></Link></li> {/* 사용자 아이디를 화면에 출력합니다. */}
+            
           </>
         ) : ( // 사용자가 없으면(로그아웃 상태면)
           <>
-            <li><Link to="/login">Log in</Link></li>
-            <li><Link to="/signup" className="btn">Sign up</Link></li>
+            <li><Link to="/login">로그인</Link ></li>
+            <li><Link to="/signup" className="btn">가입하기</Link></li>
           </>
         )}
       </ul>
