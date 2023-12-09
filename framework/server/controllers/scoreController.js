@@ -3,7 +3,7 @@ const Pose = require('../models/pose');
 
 exports.getScoresByDate = async (req, res, next) => {
   try {
-    const scores = await Score.find({ user_id: req.params.user_id, date: req.params.date });
+    const scores = await Score.findOne({ user_id: req.params.user_id, date: req.params.date });
     res.json(scores);
   } catch (err) {
     console.error(err);
