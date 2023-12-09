@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
+import { fetchScores } from '../api/scores';
 
 const Home = () => {
   const { loggedInUser } = useContext(UserContext);
