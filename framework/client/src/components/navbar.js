@@ -31,20 +31,22 @@ const NavBar = () => {
   return (
     
     <nav>
-      <div class="flex lg:flex-1">
-        <a class="-m-1.5 p-1.5">
-          <img src="/img/logo.png" alt="Logo_img" style={{ width: 'auto', height: '50px', marginRight: '10px' }} />
+      <div class="flex lg:flex-2">
+        <ul class="menu menu-m mt-3 z-[1] p-2 ">
           
-          <img src="/img/logo_HealthyMe.png" alt="Logo_text" style={{ width: 'auto', height: '50px' }}/> 
-        </a>
+          <li><img src="/img/logo.png" alt="Logo_img" style={{ width: 'auto', height: '50px', marginRight: '10px' }} /></li>
+          <li><img src="/img/logo_HealthyMe.png" alt="Logo_text" style={{ width: 'auto', height: '50px' }}/> </li>
+        </ul>
         
       </div>
-      <ul tabIndex={0} className="menu menu-sm mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-        <li><Link to="/Home">홈</Link></li>
-        <li><Link to="/Current">현재 상태</Link></li>
-        <li><Link to="/PastData">과거 Data</Link></li>
+
+      <ul tabIndex={0} className="menu menu-m mt-3 z-[1] p-2 ">
+        <li className='list-none inline-block hover:border-b-4 border-blue-600 cursor-pointer p-2 transition-all'><Link to="/Home">홈</Link></li>
+        <li className='list-none inline-block hover:border-b-4 border-blue-600 cursor-pointer p-2 transition-all'><Link to="/Current">현재 상태</Link></li>
+        <li className='list-none inline-block hover:border-b-4 border-blue-600 cursor-pointer p-2 transition-all'><Link to="/PastData">과거 Data</Link></li>
       </ul>
-      <ul>
+
+      <ul className="menu menu-m mt-3 z-[1] p-2 ">
         {loggedInUser ? ( // 사용자가 있으면(로그인 상태면) 아이디 표시
           <>
             <li><Link to="/" onClick={handleLogout}>Log out</Link></li>
@@ -58,6 +60,7 @@ const NavBar = () => {
           </>
         )}
       </ul>
+
     </nav>
   );
 };
