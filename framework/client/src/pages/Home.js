@@ -22,7 +22,7 @@ const Home = () => {
 
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="mx-auto max-w-none lg:mx-0">
-                <div class="flex flex-row grid grid-cols-2 gap-4">
+                <div class="flex flex-row grid grid-cols-2">
                     <div class="basis-1/2">
                       <Link to="/Current">
                         <button class="flex flex-row 

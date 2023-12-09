@@ -16,25 +16,28 @@ const Current = () => {
   };
 
   return (
-    <>
-      {/* Header */}
-      <header>
-        <div className="currentpage">
-          <img src="/smoothie.png" alt="" />
-        </div>
-        <div className="headings">
-          <h2>Current</h2>
-          <h3>Improve your sitting posture.</h3>
-          { /* 여기서 로그인이 안되어 있으면 LoginForm으로 이동하도록  */ }
-          <button onClick={handleLinkClick} className="btn">자세 측정 시작</button>
-        </div>
-      </header>
+    <div class="mx-auto max-w-7xl mt-10 px-6 lg:px-8">
+      <h2 class="text-xl font-bold tracking-tight text-black sm:text-4xl">
+        카메라로 상태를 보아요!
+      </h2>
 
-      {/* Footer */}
-      <footer>
-        {/* Content for footer */}
-      </footer>
-    </>
+        <div className="flex flex-row">
+          <div>
+          <img src="./img/main_sitting.png" style={{height: 500}} />
+          </div>
+
+          <div>
+          { /* 여기서 로그인이 안되어 있으면 LoginForm으로 이동하도록  */ }
+          <button onClick={handleLinkClick} 
+          className="btn
+            hover:bg-white
+              hover:text-blue-500
+              hover:font-extrabold
+              hover: border-solid
+              hover:border-blue-500">자세 측정 시작</button>
+              </div>
+        </div>
+      </div>
   );
 };
 

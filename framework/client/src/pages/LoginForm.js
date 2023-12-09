@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../contexts/UserContext';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
   const [user_id, setUserId] = useState('');
@@ -90,7 +90,7 @@ const LoginForm = () => {
                       <input
                         type="text"
                         name="user_id"
-                        value={userId}
+                        value={user_id}
                         onChange={(e) => setUserId(e.target.value)}
                         required
                       />
