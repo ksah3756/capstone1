@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
+import { fetchScores } from '../api/scores';
 
 const Home = () => {
   const { loggedInUser } = useContext(UserContext);
@@ -27,6 +28,7 @@ const Home = () => {
           <h3>Improve your sitting posture.</h3>
           { /* 여기서 로그인이 안되어 있으면 LoginForm으로 이동하도록  */ }
           <button onClick={handleLinkClick} className="btn">자세 측정 시작</button>
+          <button onClick={()=>fetchScores("test_id1", "2023-12-06")} className="btn">get score data</button>
         </div>
       </header>
 

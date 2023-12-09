@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-export const fetchScores = async (user_id, date) => {
+export async function fetchScores(user_id, date){
   try {
     const response = await axios.get(`http://localhost:5000/scores/${user_id}/${date}`);
     console.log(response.data);
@@ -11,7 +11,7 @@ export const fetchScores = async (user_id, date) => {
   }
 };
 
-const ScoreComponent = (props) => {
+export const ScoreComponent = (props) => {
 
   const postScoresData = async () => {
     try {
@@ -31,5 +31,3 @@ const ScoreComponent = (props) => {
     </div>
   );
 };
-
-export default ScoreComponent;
