@@ -5,8 +5,8 @@ import Webcam from "react-webcam";
 import { drawKeypoints, drawSkeleton, drawWrongKeypoint } from "./utilities";
 import { postPoseData } from "../api/poses";
 import { UserContext } from '../contexts/UserContext';
-import { ScoreComponent }  from "../api/scores";
-import { diagnosisCurrent } from "./diagnosis";
+import { ScoreComponent, fetchScores }  from "../api/scores";
+import { diagnosisCurrent, diagnosisResult } from "./diagnosis";
 import moment from "moment";
 
 let diagnosis = null;

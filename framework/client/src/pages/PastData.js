@@ -18,12 +18,10 @@ const PastData= () => {
   
   let formattedDate = `${year}-${month}-${day}`; // YYYY-MM-DD 형식
   
-  
   console.log('현재 날짜:', currentDate);
 
   const s = diagnosisResult(fetchScores("test_id1", "2023-12-06"));
   console.log(s);
-
 
   const handleLinkClick = () => {
     if (loggedInUser) {
