@@ -1,9 +1,10 @@
 import React from 'react';
 import axios from 'axios';
 
-export async function fetchScores(user_id, date){
+// user_id에 해당하는 모든 score 데이터를 가져오도록 변경
+export async function fetchScores(user_id){
   try {
-    const response = await axios.get(`http://localhost:5000/scores/${user_id}/${date}`);
+    const response = await axios.get(`http://localhost:5000/scores/${user_id}/`);
     console.log(response.data);
     return response.data;
   } catch (error) {

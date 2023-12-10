@@ -52,11 +52,9 @@ const PastData= () => {
   
   console.log('현재 날짜:', currentDate);
 
-  const s = diagnosisResult(fetchScores("test_id1", "2023-12-06"));
+  // 3가지 부위의 score ratio의 평균에 따라 4가지 단계와 가장 심각한 부위의 진단
+  const s = diagnosisResult(fetchScores(loggedInUser));
   console.log(s);
-
-
-
 
 
 
