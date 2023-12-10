@@ -3,39 +3,8 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import { fetchScores } from '../api/scores';
 import { diagnosisResult } from '../poseNet/diagnosis';
-import styled from 'styled-components'; // 꺽은선 그레프, chart.js 사용
-import { Line } from 'react-chartjs-2'; // 꺽은선 그레프, chart.js 사용
 import '../poseNet/diagnosis';
 import '../styles/styles.css';
-
-//그래프 데이터
-const data = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-  datasets: [
-    {
-      type: 'line',
-      label: 'Dataset 1',
-      borderColor: 'rgb(54, 162, 235)',
-      borderWidth: 2,
-      fill: false,
-      data: [1, 2, 3, 4, 5],
-    },
-    {
-      type: 'bar',
-      label: 'Dataset 2',
-      backgroundColor: 'rgb(255, 99, 132)',
-      data: [1, 2, 3, 4, 5, 6],
-      borderColor: 'red',
-      borderWidth: 2,
-    },
-    {
-      type: 'bar',
-      label: 'Dataset 3',
-      backgroundColor: 'rgb(75, 192, 192)',
-      data: [1, 2, 3, 4, 5, 6],
-    },
-  ],
-};
 
 const PastData= () => {
   const { loggedInUser } = useContext(UserContext);
@@ -56,10 +25,6 @@ const PastData= () => {
   console.log(s);
 
 
-
-
-
-
   const handleLinkClick = () => {
     if (loggedInUser) {
       navigate('/PastData'); // 로그인 되어 있으면 '/PastData' 페이지로 이동
@@ -71,7 +36,6 @@ const PastData= () => {
   
   return (
 
-    <div>
     <div class="mx-auto max-w-7xl mt-10 px-6 lg:px-8">
       <h2 class="text-xl font-bold tracking-tight text-black sm:text-4xl">
         {loggedInUser}
@@ -120,11 +84,6 @@ const PastData= () => {
         <p class="font-normal text-gray-700 dark:text-gray-400">목, 엉덩이 주의 + {s}</p>
       </a>
     </div>
-    </div>
-    <Container>
-      <Line type="line" data={data} />
-    </Container>
-    
 
 </div>
 
@@ -132,9 +91,5 @@ const PastData= () => {
   );
 };
 
-export default PastData;
 
-const Container = styled.div`
-  width: 90vw;
-  max-width: 900px;
-`;
+export default PastData;

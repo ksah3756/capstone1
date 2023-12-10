@@ -19,9 +19,9 @@ import SignupForm from "./pages/SignupForm";
 		<UserProvider>
 			<NavBar />
 			<Routes>
-				<Route path="/home" element={<Home />} />
-				<Route path="/current" element={<Current />} />
-				<Route path="/pastdata" element={<PastData />} />
+				<Route path="/Home" element={<Home />} />
+				<Route path="/Current" element={<Current />} />
+				<Route path="/PastData" element={<PastData />} />
 				<Route path="/login" element={<LoginForm />} />
 				<Route path="/signup" element={<SignupForm />} />
 				<Route path="/poses" element={<PoseNet />} />
