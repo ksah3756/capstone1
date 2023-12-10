@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from "react";
+import React, { useRef, useContext, useState, useEffect } from "react";
 import * as tf from "@tensorflow/tfjs";
 import * as posenet from "@tensorflow-models/posenet";
 import Webcam from "react-webcam";
@@ -9,29 +9,12 @@ import { ScoreComponent, fetchScores }  from "../api/scores";
 import { diagnosisCurrent, diagnosisResult } from "./diagnosis";
 import moment from "moment";
 
-let diagnosis = null;
-
-export const getDiagnosis = () => {
-  return diagnosis;
-};
-
 const PoseNet = () => {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
 
     const { loggedInUser } = useContext(UserContext);
-
-    //  Load posenet
-    const runPosenet = async () => {
-    const net = await posenet.load({
-        inputResolution: { width: 640, height: 480 },
-        scale: 0.8,
-      });
-      //
-      setInterval(() => {
-        detect(net);
-      }, 5000); // 5초 마다 자세 추정
-    };
+    const [diagnosis, setDiagnosis] = useState({});
   
     const detect = async (net) => {
       if (
@@ -56,7 +39,8 @@ const PoseNet = () => {
         // user_id를 url의 params에서 가져와야 하는데
     
         sendDataToDB(loggedInUser, poseData);
-        diagnosis = diagnosisCurrent(poseData);
+        let diagnosis = diagnosisCurrent(poseData);
+        setDiagnosis(diagnosis);
         //drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
       }
     };
@@ -163,7 +147,22 @@ const PoseNet = () => {
       await postPoseData(userId, poseData);
     };
 
-    runPosenet();
+    // 컴포넌트가 마운트될때 runPosenet()이 한번만 실행되도록 
+    useEffect(() => {
+      const runPosenet = async () => {
+        const net = await posenet.load({
+          inputResolution: { width: 640, height: 480 },
+          scale: 0.8,
+        });
+        
+        const intervalId = setInterval(() => {
+          detect(net);
+        }, 5000); // 5초 마다 자세 추정
+  
+        return () => clearInterval(intervalId); // cleanup 함수
+      };
+      runPosenet();
+    }, []);
 
     // webcamRef, canvasRef를 입력으로 받아서 처리해도 되고, poseNet 함수  내에서 자체적으로 생성해서 처리해도 됨
     // return {webcamRef, canvasRef};
@@ -200,9 +199,16 @@ const PoseNet = () => {
             height: 480,
           }}
         />
-        {/* 오늘 날짜로 score ratio data를 db에 저장*/}
-        <ScoreComponent user_id={loggedInUser} date={moment().format('YYYY-MM-DD')}/>
+        
       </header>
+      <body>
+          {/* 오늘 날짜로 score ratio data를 db에 저장*/}
+        <ScoreComponent user_id={loggedInUser} date={moment().format('YYYY-MM-DD')}/>
+        <>
+          { /* 이거 위치를 좀 수정해야 하는데*/ }
+          <pre>{JSON.stringify(diagnosis, null, 2)}</pre>
+        </>
+      </body>
     </div>
     );
 }
