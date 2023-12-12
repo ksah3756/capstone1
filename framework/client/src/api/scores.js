@@ -31,4 +31,4 @@ export const ScoreComponent = (props) => {
       {/* POST 요청을 보내는 버튼 */}
     </div>
   );
-};
+}; 
