@@ -15,6 +15,7 @@ const PoseNet = () => {
 
     const { loggedInUser } = useContext(UserContext);
     const [diagnosis, setDiagnosis] = useState({});
+    const [poseStatus, setPoseStatus] = useState("");
   
     const detect = async (net) => {
       if (
@@ -41,6 +42,14 @@ const PoseNet = () => {
         sendDataToDB(loggedInUser, poseData);
         let diagnosis = diagnosisCurrent(poseData);
         setDiagnosis(diagnosis);
+
+        switch(diagnosis["poseScore"]){
+          case 4 : setPoseStatus("바름"); break;
+          case 3 : setPoseStatus("주의"); break;
+          case 2 : setPoseStatus("위험"); break;
+          case 1 : setPoseStatus("심각"); break;
+          default : setPoseStatus(""); break;
+        }
         //drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
       }
     };
@@ -75,7 +84,7 @@ const PoseNet = () => {
       const keypoint_knee = keypoints[13 + rightSideIndex];
       const keypoint_ankle = keypoints[15 + rightSideIndex];
 
-      var poseScore = 5;
+      var poseScore = 4;
       var neck_flag = true;
       var hip_flag = true;
       //var elbow_flag = true;
@@ -168,14 +177,6 @@ const PoseNet = () => {
       if(key != "poseScore"){
         return value;
       }
-      else{
-        switch(value){
-          case 4 : return <div class='font-bold text-blue-200' style={{fontSize:"36px"}}><strong>바름</strong></div>
-          case 3 : return <div class='font-bold text-blue-400' style={{fontSize:"36px"}}><strong>주의</strong></div>
-          case 2 : return <div class='font-bold text-blue-600' style={{fontSize:"36px"}}><strong>위험</strong></div>
-          case 1 : return <div class='font-bold text-blue-800' style={{fontSize:"36px"}}><strong>심각</strong></div>
-        }
-      }
     });
 
     // webcamRef, canvasRef를 입력으로 받아서 처리해도 되고, poseNet 함수  내에서 자체적으로 생성해서 처리해도 됨
@@ -190,12 +191,13 @@ const PoseNet = () => {
             position: "absolute",
             marginLeft: "auto",
             marginRight: "auto",
+            marginTop: "40px",
             left: 0,
             right: 0,
             textAlign: "center",
             zindex: 9,
             width: 640,
-            height: 480,
+            height: 380,
           }}
         />
 
@@ -205,12 +207,13 @@ const PoseNet = () => {
             position: "absolute",
             marginLeft: "auto",
             marginRight: "auto",
+            marginTop: "40px",
             left: 0,
             right: 0,
             textAlign: "center",
             zindex: 9,
             width: 640,
-            height: 480,
+            height: 380,
           }}
         />
         
@@ -219,7 +222,7 @@ const PoseNet = () => {
       
         <div class="mx-auto px-6 lg:px-8 text-center">
           <h2 class="text-xl font-bold tracking-tight text-black sm:text-4xl">
-            현재 내 상태는 <a class="text-blue-500">{diagnosisCurrent}</a> 합니다.
+            현재 내 상태는 <a class="text-blue-500">{poseStatus}</a> 입니다.
           </h2>
 
           {/* 마진 만들기 */}
