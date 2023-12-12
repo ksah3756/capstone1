@@ -174,8 +174,9 @@ const PoseNet = () => {
           ref={webcamRef}
           style={{
             position: "absolute",
-            marginLeft: "auto",
+            marginLeft: "30px",
             marginRight: "auto",
+            marginTop: "30px", 
             left: 0,
             right: 0,
             textAlign: "center",
@@ -189,8 +190,9 @@ const PoseNet = () => {
           ref={canvasRef}
           style={{
             position: "absolute",
-            marginLeft: "auto",
+            marginLeft: "30px",
             marginRight: "auto",
+            marginTop: "30px",
             left: 0,
             right: 0,
             textAlign: "center",
