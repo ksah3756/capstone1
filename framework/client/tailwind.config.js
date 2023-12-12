@@ -7,7 +7,8 @@ module.exports = {
     "./src/pages/Home.js",
     "./src/pages/PastData.js",
     "./src/pages/LoginForm.js",
-    "./src/pages/SignupForm.js"
+    "./src/pages/SignupForm.js",
+    "./src/poseNet/pose.js"
   ],
   theme: {
     extend: {},

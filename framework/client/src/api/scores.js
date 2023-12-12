@@ -25,9 +25,12 @@ export const ScoreComponent = (props) => {
   };
 
   return (
-    <div>
+    <div class='items-center'>
       {/* 출력할 내용 */}
-      <button onClick={postScoresData}>Create scores data</button>
+      <button onClick={postScoresData} class='items-center 
+      hover:bg-blue-500
+      hover:text-white
+      hover:border-blue-500'>데이터 저장하기</button>
       {/* POST 요청을 보내는 버튼 */}
     </div>
   );

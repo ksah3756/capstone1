@@ -34,7 +34,7 @@ const Current = () => {
 
       <div class='flex content-center'>
           { /* 여기서 로그인이 안되어 있으면 LoginForm으로 이동하도록  */ }
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <button onClick={handleLinkClick} 
           className="btn
             hover:bg-white

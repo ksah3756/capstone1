@@ -168,8 +168,8 @@ const PoseNet = () => {
     // return {webcamRef, canvasRef};
     // 화면에 표시하는 부분. 디자인에 맞게 수정 필요
     return (
-      <div className="PoseNet">
-      <header className="PoseNet-header">
+      <div className="h-screen">
+      
         <Webcam
           ref={webcamRef}
           style={{
@@ -200,15 +200,37 @@ const PoseNet = () => {
           }}
         />
         
-      </header>
-      <body>
+      
+      <div class='flex items-center h-center'>
+      
+      <div class="mx-auto px-6 lg:px-8 text-center">
+        <h2 class="text-xl font-bold tracking-tight text-black sm:text-4xl">
+          현재 내 상태는 <a class="text-blue-500">{diagnosisCurrent}</a> 합니다.
+        </h2>
+
+        {/* 마진 만들기 */}
+        <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl"> .</h2>
+        <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl"> .</h2>
+        <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl"> .</h2>
+        <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl"> .</h2>
+        <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl"> .</h2>
+        <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl"> .</h2>
+        <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl"> .</h2>
+        <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl"> .</h2>
+        <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl"> .</h2>
+  
+
+        <p class="mt-6 text-lg font-bold leading-8 text-gray-500">
+          현재 내 모습을 카메라로 보아요.
+        </p>
+
           {/* 오늘 날짜로 score ratio data를 db에 저장*/}
         <ScoreComponent user_id={loggedInUser} date={moment().format('YYYY-MM-DD')}/>
-        <>
+
           { /* 이거 위치를 좀 수정해야 하는데*/ }
           <pre>{JSON.stringify(diagnosis, null, 2)}</pre>
-        </>
-      </body>
+          </div>
+          </div>
     </div>
     );
 }
