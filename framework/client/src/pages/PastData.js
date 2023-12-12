@@ -76,38 +76,6 @@ const PastData = () => {
     }
   };
 
-
-// 엉덩이, 무릎, 목 데이터를 날짜를 기준으로 그룹화합니다.
-const groupedData = diagnosisData.reduce((acc, item) => {
-  console.log(acc);
-  console.log(item);
-
-  const { date, bodyPart, content } = item;
-  if (!acc[date]) {
-    acc[date] = { date, hip: '', knee: '', neck: '' };
-  }
-  
-
-  if (bodyPart === 'hip') {
-    acc[date].hip = content;
-  } else if (bodyPart === 'knee') {
-    acc[date].knee = content;
-  } else if (bodyPart === 'neck') {
-    acc[date].neck = content;
-  }
-
-  return acc;
-}, {});
-
-const tableRows = Object.values(groupedData).map((row, index) => (
-  <tr key={index}>
-    <td>{row.date}</td>
-    <td>{row.hip_score_ratio}</td>
-    <td>{row.knee_score_ratio}</td>
-    <td>{row.neck_score_ratio}</td>
-  </tr>
-  ));
-
   return (
     <div className="mx-auto max-w-7xl mt-10 px-6 lg:px-8">
       <h2 className="text-xl font-bold tracking-tight text-black sm:text-4xl">
@@ -129,7 +97,8 @@ const tableRows = Object.values(groupedData).map((row, index) => (
         ))}
       </select>
       
-      
+
+      {/* 날짜 선택 시, 해당 데이터 추출 */}
       <div className="flex rounded-box overflow-x-auto">
         {diagnosisData.map((data) => (
           <a className="block w-56 p-6" >
@@ -141,9 +110,10 @@ const tableRows = Object.values(groupedData).map((row, index) => (
       </div>
 
 
+      {/* 모든 날짜 진단 내용 추출 */}
       <div className="flex rounded-box overflow-x-auto">
         {data.map((score, index) => (
-          <a key={index} className="block w-56 p-6" >
+          <a key={index} className="block p-6 w-64" >
             <img src={status_info_pic(score)} className="w-full" />
             <h5 className="mt-2 mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{score.date}</h5>
             <p className="font-normal text-gray-700 dark:text-gray-400">{docValue}</p>
@@ -152,8 +122,9 @@ const tableRows = Object.values(groupedData).map((row, index) => (
       </div>
 
 
+      {/* 모든 날짜 무릎, 허리, 엉덩이 점수 표로 추출 */}
       <h2 className="mt-10 text-xl font-bold tracking-tight text-black sm:text-4xl">
-        나의 자세 점수는?
+        부위별 나의 자세 점수는?
       </h2>
 
       <p class="mt-2 mb-5 text-lg font-bold leading-8 text-gray-500">
