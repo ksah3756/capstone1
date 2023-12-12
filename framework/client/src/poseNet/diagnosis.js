@@ -35,45 +35,48 @@ function evalPose(scores){
 export function diagnosisResult(scores) {
     let [wrongPartIndex, max_ratio] = findMaxRatioPart(scores);
     let poseScore = evalPose(scores);
-    let diagnosis = null;
+    let diagnosis = {}
+    
+    diagnosis['poseScore'] = poseScore;
+    diagnosis['wrongPartIndex'] = wrongPartIndex;
 
     switch (wrongPartIndex){
         case 0:     // neck
-            if (max_ratio >= 15 && max_ratio < 30){
-                diagnosis = "목과 어깨 통증 유발";
+            if (max_ratio < 30){
+                diagnosis['content'] = "목과 어깨 통증 유발";
             }
             else if (max_ratio >= 30 && max_ratio < 50){
-                diagnosis = "목과 어깨 통증 유발\n두통 및 눈의 피로 발생";
+                diagnosis['content'] = "목과 어깨 통증 유발\n두통 및 눈의 피로 발생";
             }
-            else if (max_ratio >= 50){
-                diagnosis = "목과 어깨 통증 유발\n두통 및 눈의 피로 발생\n경추 변형으로 인한 목 디스크 발생 가능";
+            else{
+                diagnosis['content'] = "목과 어깨 통증 유발\n두통 및 눈의 피로 발생\n경추 변형으로 인한 목 디스크 발생 가능";
             }
             break;
         case 1:     // back
-            if (max_ratio >= 15 && max_ratio < 30){
-                diagnosis = "허리 통증 유발";
+            if (max_ratio < 30){
+                diagnosis['content'] = "허리 통증 유발";
             }
             else if (max_ratio >= 30 && max_ratio < 50){
-                diagnosis = "허리 통증 유발\n허리 근육의 약화로 인한 허리의 안정성 감소 및 다양한 통증 유발";
+                diagnosis['content'] = "허리 통증 유발\n허리 근육의 약화로 인한 허리의 안정성 감소 및 다양한 통증 유발";
             }
-            else if (max_ratio >= 50){
-                diagnosis = "허리 통증 유발\n허리 근육의 약화\n척추 불균형으로 인한 허리디스크 발생 가능";
+            else{
+                diagnosis['content'] = "허리 통증 유발\n허리 근육의 약화\n척추 불균형으로 인한 허리디스크 발생 가능";
             }
             break;
         case 2:     // knee
-            if (max_ratio >= 15 && max_ratio < 30){
-                diagnosis = "무릎 통증 유발";
+            if (max_ratio < 30){
+                diagnosis['content'] = "무릎 통증 유발";
             }
             else if (max_ratio >= 30 && max_ratio < 50){
-                diagnosis = "무릎 통증 유발\n다리 혈액 순환 방해로 인한 통증&부기 발생 가능";
+                diagnosis['content'] = "무릎 통증 유발\n다리 혈액 순환 방해로 인한 통증&부기 발생 가능";
             }
-            else if (max_ratio >= 50){
-                diagnosis = "무릎 통증 유발\n다리 혈액 순환 방해로 인한 통증&부기 발생 가능\n무릎 관절에 장시간 가해지는 스트레스로 인한 연골 손상, 관절염과 같은 문제 발생 가능";
+            else{
+                diagnosis['content'] = "무릎 통증 유발\n다리 혈액 순환 방해로 인한 통증&부기 발생 가능\n무릎 관절에 장시간 가해지는 스트레스로 인한 연골 손상, 관절염과 같은 문제 발생 가능";
             }
             break;
     }
 
-    return [poseScore, wrongPartIndex, diagnosis];
+    return diagnosis;
 }
 
 // 현재 상태에 표시하기 위한 진단
@@ -85,17 +88,32 @@ export function diagnosisCurrent(poseData){
     let poseScore = 4;
 
     if (!poseData.neck){
-        diagnosis['neck'] = "목과 어깨 통증 및 두통 발생\n목 디스크 발생";
+        diagnosis['neck'] = (
+            <p>
+                <strong>목을 펴세요.</strong> <br />
+                <div style={{color:"gray", opacity:0.5}}>목과 어깨 통증 및 두통 발생 가능, 목 디스크 발생 가능</div>
+            </p>
+        );
         poseScore -= 1;
     }
 
     if (!poseData.hip){
-        diagnosis['back'] = "허리 통증 및 약화\n허리 디스크 발생";
+        diagnosis['back'] = (
+            <p>
+                <strong>허리를 펴세요.</strong> <br/>
+                <div style={{color:"gray", opacity:0.5}}>허리 통증 및 약화 가능, 허리 디스크 발생 가능</div>
+            </p>
+        );
         poseScore -= 1;
     }
 
     if (!poseData.knee){
-        diagnosis['knee'] = "무릎 통증 및 부기 발생\n연골 손상, 관절염 발생";
+        diagnosis['knee'] = (
+            <p>
+                <strong>무릎을 올바르게 위치하세요.</strong> <br/>
+                <div style={{color:"gray", opacity:0.5}}>무릎 통증 및 부기 발생, 연골 손상, 관절염 발생 가능</div>
+            </p>
+        );
         poseScore -= 1;
     }
 

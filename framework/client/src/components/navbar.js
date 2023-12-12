@@ -50,7 +50,7 @@ const NavBar = () => {
       </div>
 
       <ul tabIndex={0} className="text-center menu menu-m z-[1] p-2 bg-fixed ">
-        <li className='font-bold list-none inline-block hover:border-b-4 border-blue-600 cursor-pointer p-4 transition-all'><Link to="/Home">홈</Link></li>
+        <li className='font-bold list-none inline-block hover:border-b-4 border-blue-600 cursor-pointer p-4 transition-all'><Link to="/">홈</Link></li>
         <li className='font-bold list-none inline-block hover:border-b-4 border-blue-600 cursor-pointer p-4 transition-all'><Link to="/Current">현재 상태</Link></li>
         <li className='font-bold list-none inline-block hover:border-b-4 border-blue-600 cursor-pointer p-4 transition-all'><Link to="/PastData">과거 Data</Link></li>
       </ul>
@@ -61,7 +61,7 @@ const NavBar = () => {
             <li className='list-none inline-block p-2 font-normal'>
               <Link to="/" onClick={handleLogout}> <a class='hover:text-blue-500 hover:font-bold'>로그아웃 </a></Link>
             </li>
-            <li className='list-none inline-block p-2'><Link to="/Home"><a className="btn rounded-full">{loggedInUser}님, 환영합니다</a></Link></li> {/* 사용자 아이디를 화면에 출력합니다. */}
+            <li className='list-none inline-block p-2'><Link to="/"><a className="btn rounded-full">{loggedInUser}님, 환영합니다</a></Link></li> {/* 사용자 아이디를 화면에 출력합니다. */}
             
           </>
         ) : ( // 사용자가 없으면(로그아웃 상태면)
