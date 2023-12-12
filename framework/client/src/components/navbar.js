@@ -50,7 +50,7 @@ const NavBar = () => {
       </div>
 
       <ul tabIndex={0} className="text-center menu menu-m z-[1] p-2 bg-fixed ">
-        <li className='font-bold list-none inline-block hover:border-b-4 border-blue-600 cursor-pointer p-4 transition-all'><Link to="/Home">홈</Link></li>
+        <li className='font-bold list-none inline-block hover:border-b-4 border-blue-600 cursor-pointer p-4 transition-all'><Link to="/">홈</Link></li>
         <li className='font-bold list-none inline-block hover:border-b-4 border-blue-600 cursor-pointer p-4 transition-all'><Link to="/Current">현재 상태</Link></li>
         <li className='font-bold list-none inline-block hover:border-b-4 border-blue-600 cursor-pointer p-4 transition-all'><Link to="/PastData">과거 Data</Link></li>
       </ul>

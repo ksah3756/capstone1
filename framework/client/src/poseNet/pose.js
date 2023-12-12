@@ -208,7 +208,7 @@ const PoseNet = () => {
           현재 내 상태는 <a class="text-blue-500">{diagnosisCurrent}</a> 합니다.
         </h2>
 
-        {/* 마진 만들기 */}
+        {/* 높이 마진 만들기 */}
         <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl"> .</h2>
         <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl"> .</h2>
         <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl"> .</h2>

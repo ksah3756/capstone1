@@ -14,7 +14,7 @@ const Footer = () => {
                 </a>
                 <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
                     <li>
-                        <a class="hover:underline me-4 md:me-6"><Link to="/Home">홈</Link></a>
+                        <a class="hover:underline me-4 md:me-6"><Link to="/">홈</Link></a>
                     </li>
                     <li>
                         <a href="#" class="hover:underline me-4 md:me-6"><Link to="/Current">현재 상태</Link></a>

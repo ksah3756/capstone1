@@ -19,7 +19,7 @@ import SignupForm from "./pages/SignupForm";
 		<UserProvider>
 			<NavBar />
 			<Routes>
-				<Route path="/Home" element={<Home />} />
+				<Route path="/" element={<Home />} />
 				<Route path="/Current" element={<Current />} />
 				<Route path="/PastData" element={<PastData />} />
 				<Route path="/login" element={<LoginForm />} />

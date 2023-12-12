@@ -24,7 +24,7 @@ const PastData = () => {
         setData(scores);
         if (scores.length > 0) {
           setDateValue(scores[0].date);
-          const loggedInUserData = await diagnosisResult(loggedInUser[0]);
+          const loggedInUserData = await diagnosisResult(loggedInUser);
           setDocValue(loggedInUserData['content']);
 
           // 가능한 날짜를 추출하여 세팅
@@ -55,7 +55,74 @@ const PastData = () => {
     return img_src;
   };
 
+function status_hip_score_to_txt(score) {
+    let txt = '';
+    
+    if (score.hip_score_ratio < 25)
+      txt = '바름';
+    else if (25 <= score.hip_score_ratio && score.hip_score_ratio < 50)
+      txt = '주의';
+    else if (50 <= score.hip_score_ratio && score.hip_score_ratio < 75)
+      txt = '심각';
+    else if (75 <= score.hip_score_ratio && score.hip_score_ratio < 100)
+      txt = '매우 심각';
+
+    return txt;
+  };
+
+  function status_knee_score_to_txt(score) {
+    let txt = '';
+    
+    if (score.knee_score_ratio < 25)
+      txt = '바름';
+    else if (25 <= score.knee_score_ratio && score.knee_score_ratio < 50)
+      txt = '주의';
+    else if (50 <= score.knee_score_ratio && score.knee_score_ratio < 75)
+      txt = '심각';
+    else if (75 <= score.knee_score_ratio && score.knee_score_ratio < 100)
+      txt = '매우 심각';
+
+    return txt;
+  };
+
+  function status_neck_score_to_txt(score) {
+    let txt = '';
+    
+    if (score.neck_score_ratio < 25)
+      txt = '바름';
+    else if (25 <= score.neck_score_ratio && score.neck_score_ratio < 50)
+      txt = '주의';
+    else if (50 <= score.neck_score_ratio && score.neck_score_ratio < 75)
+      txt = '심각';
+    else if (75 <= score.neck_score_ratio && score.neck_score_ratio < 100)
+      txt = '매우 심각';
+
+    return txt;
+  };
   
+  // 각 상태에 맞는 font color 클래스 생성
+function getStatusFontColor(status) {
+  let colorClass = '';
+  switch (status) {
+    case '바름':
+      colorClass = 'text-blue-200';
+      break;
+    case '주의':
+      colorClass = 'text-blue-400';
+      break;
+    case '심각':
+      colorClass = 'text-blue-600';
+      break;
+    case '매우 심각':
+      colorClass = 'text-blue-800';
+      break;
+    default:
+      colorClass = 'text-black'; // 기본 색상
+      break;
+  }
+  return colorClass;
+}
+
   const handleDateChange = (event) => {
     
     const date = event.target.value;
@@ -113,10 +180,10 @@ const PastData = () => {
       {/* 모든 날짜 진단 내용 추출 */}
       <div className="flex rounded-box overflow-x-auto">
         {data.map((score, index) => (
-          <a key={index} className="block p-6 w-64" >
+          <a key={index} className="block p-6" style={{width: 300}}>
             <img src={status_info_pic(score)} className="w-full" />
             <h5 className="mt-2 mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{score.date}</h5>
-            <p className="font-normal text-gray-700 dark:text-gray-400">{docValue}</p>
+            <p className="font-normal text-gray-700 dark:text-gray-400">{diagnosisResult(score)['content']}</p>
           </a>
         ))}
       </div>
@@ -128,10 +195,13 @@ const PastData = () => {
       </h2>
 
       <p class="mt-2 mb-5 text-lg font-bold leading-8 text-gray-500">
-        바름(0 ~ 25 점) / 주의(25 ~ 50 점) / 심각(50 ~ 75 점) / 매우심각(75 ~ 100 점)
+        <a class='text-blue-200'>바름(0 ~ 25 점) /</a> 
+        <a class='text-blue-400'>주의(25 ~ 50 점) /</a>
+        <a class='text-blue-600'>심각(50 ~ 75 점) /</a>
+        <a class='text-blue-800'>매우심각(75 ~ 100 점)</a>
       </p>
 
-      <table className="w-full border-collapse border border-gray-400">
+      <table className="w-full text-center border-collapse border border-gray-400">
         <thead>
           <tr>
             <th className="border border-gray-400">날짜</th>
@@ -141,14 +211,20 @@ const PastData = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((score, index) => (
-            <tr key={score.length}>
-              <td>{score.date}</td>
-              <td>{score.hip_score_ratio}</td>
-              <td>{score.knee_score_ratio}</td>
-              <td>{score.neck_score_ratio}</td>
-            </tr>
-          ))}
+        {data.map((score, index) => (
+      <tr key={index}>
+        <td>{score.date}</td>
+        <td className={`${getStatusFontColor(status_hip_score_to_txt(score))} font-semibold`}>
+          {status_hip_score_to_txt(score)} ({score.hip_score_ratio} 점)
+        </td>
+        <td className={`${getStatusFontColor(status_knee_score_to_txt(score))} font-semibold`}>
+          {status_knee_score_to_txt(score)} ({score.knee_score_ratio} 점)
+        </td>
+        <td className={`${getStatusFontColor(status_neck_score_to_txt(score))} font-semibold`}>
+          {status_neck_score_to_txt(score)} ({score.neck_score_ratio} 점)
+        </td>
+      </tr>
+    ))}
         </tbody>
       </table>
 
