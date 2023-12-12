@@ -170,10 +170,10 @@ const PoseNet = () => {
       }
       else{
         switch(value){
-          case 4 : return <div style={{color:"green", fontSize:"36px"}}><strong>바름</strong></div>
-          case 3 : return <div style={{color:"yellow", fontSize:"36px"}}><strong>주의</strong></div>
-          case 2 : return <div style={{color:"orange", fontSize:"36px"}}><strong>심각</strong></div>
-          case 1 : return <div style={{color:"red", fontSize:"36px"}}><strong>매우 심각</strong></div>
+          case 4 : return <div class='font-bold text-blue-200' style={{fontSize:"36px"}}><strong>바름</strong></div>
+          case 3 : return <div class='font-bold text-blue-400' style={{fontSize:"36px"}}><strong>주의</strong></div>
+          case 2 : return <div class='font-bold text-blue-600' style={{fontSize:"36px"}}><strong>위험</strong></div>
+          case 1 : return <div class='font-bold text-blue-800' style={{fontSize:"36px"}}><strong>심각</strong></div>
         }
       }
     });

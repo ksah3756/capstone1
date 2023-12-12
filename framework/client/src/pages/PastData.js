@@ -63,9 +63,9 @@ function status_hip_score_to_txt(score) {
     else if (25 <= score.hip_score_ratio && score.hip_score_ratio < 50)
       txt = '주의';
     else if (50 <= score.hip_score_ratio && score.hip_score_ratio < 75)
-      txt = '심각';
+      txt = '위험';
     else if (75 <= score.hip_score_ratio && score.hip_score_ratio < 100)
-      txt = '매우 심각';
+      txt = '심각';
 
     return txt;
   };
@@ -78,9 +78,9 @@ function status_hip_score_to_txt(score) {
     else if (25 <= score.knee_score_ratio && score.knee_score_ratio < 50)
       txt = '주의';
     else if (50 <= score.knee_score_ratio && score.knee_score_ratio < 75)
-      txt = '심각';
+      txt = '위험';
     else if (75 <= score.knee_score_ratio && score.knee_score_ratio < 100)
-      txt = '매우 심각';
+      txt = '심각';
 
     return txt;
   };
@@ -93,9 +93,9 @@ function status_hip_score_to_txt(score) {
     else if (25 <= score.neck_score_ratio && score.neck_score_ratio < 50)
       txt = '주의';
     else if (50 <= score.neck_score_ratio && score.neck_score_ratio < 75)
-      txt = '심각';
+      txt = '위험';
     else if (75 <= score.neck_score_ratio && score.neck_score_ratio < 100)
-      txt = '매우 심각';
+      txt = '심각';
 
     return txt;
   };
@@ -110,10 +110,10 @@ function getStatusFontColor(status) {
     case '주의':
       colorClass = 'text-blue-400';
       break;
-    case '심각':
+    case '위험':
       colorClass = 'text-blue-600';
       break;
-    case '매우 심각':
+    case '심각':
       colorClass = 'text-blue-800';
       break;
     default:
@@ -169,7 +169,7 @@ function getStatusFontColor(status) {
       <div className="flex rounded-box overflow-x-auto">
         {diagnosisData.map((data) => (
           <a className="block w-56 p-6" >
-            <img src={status_info_pic(diagnosisResult(data)['poseScore'])} className="w-full" />
+            <img src={status_info_pic(data)} className="w-full" />
             <h5 className="mt-2 mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{data.date}</h5>
             <p className="font-normal text-gray-700 dark:text-gray-400">{diagnosisResult(data)['content']}</p>
           </a>
