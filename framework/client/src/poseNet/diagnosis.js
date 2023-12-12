@@ -88,17 +88,32 @@ export function diagnosisCurrent(poseData){
     let poseScore = 4;
 
     if (!poseData.neck){
-        diagnosis['neck'] = "목과 어깨 통증 및 두통 발생\n목 디스크 발생";
+        diagnosis['neck'] = (
+            <p>
+                <strong>목을 펴세요.</strong> <br />
+                <div style={{color:"gray", opacity:0.5}}>목과 어깨 통증 및 두통 발생 가능, 목 디스크 발생 가능</div>
+            </p>
+        );
         poseScore -= 1;
     }
 
     if (!poseData.hip){
-        diagnosis['back'] = "허리 통증 및 약화\n허리 디스크 발생";
+        diagnosis['back'] = (
+            <p>
+                <strong>허리를 펴세요.</strong> <br/>
+                <div style={{color:"gray", opacity:0.5}}>허리 통증 및 약화 가능, 허리 디스크 발생 가능</div>
+            </p>
+        );
         poseScore -= 1;
     }
 
     if (!poseData.knee){
-        diagnosis['knee'] = "무릎 통증 및 부기 발생\n연골 손상, 관절염 발생";
+        diagnosis['knee'] = (
+            <p>
+                <strong>무릎을 올바르게 위치하세요.</strong> <br/>
+                <div style={{color:"gray", opacity:0.5}}>무릎 통증 및 부기 발생, 연골 손상, 관절염 발생 가능</div>
+            </p>
+        );
         poseScore -= 1;
     }
 
