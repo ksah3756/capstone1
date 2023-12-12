@@ -20,8 +20,8 @@ import SignupForm from "./pages/SignupForm";
 			<NavBar />
 			<Routes>
 				<Route path="/" element={<Home />} />
-				<Route path="/current" element={<Current />} />
-				<Route path="/pastdata" element={<PastData />} />
+				<Route path="/Current" element={<Current />} />
+				<Route path="/PastData" element={<PastData />} />
 				<Route path="/login" element={<LoginForm />} />
 				<Route path="/signup" element={<SignupForm />} />
 				<Route path="/poses" element={<PoseNet />} />
