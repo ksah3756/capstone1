@@ -22,7 +22,9 @@ const PastData = () => {
     const fetchData = async () => {
       try {
         const scores = await fetchScores(loggedInUser);
+        const scores_max7 = await fetchScores(loggedInUser);
         setData(scores);
+        
         if (scores.length > 0) {
           const loggedInUserData = await diagnosisResult(loggedInUser);
           setDocValue(loggedInUserData['content']);
@@ -180,12 +182,13 @@ function getStatusFontColor(status) {
       {/* 모든 날짜 진단 내용 추출 */}
       <div className="grid grid-cols-7 gap-4 rounded-box">
         {data.map((score, index) => (
+          index < 7 && ( // 최대 7개까지만 보여주도록 조건문 추가
           <a key={index} className="block w-44 p-6">
             <img src={status_info_pic(score)} className="w-full" />
             <h5 className="mt-2 mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{score.date}</h5>
             <p className="font-normal text-gray-700 dark:text-gray-400">{diagnosisResult(score)['content']}</p>
           </a>
-        ))}
+        )))}
       </div>
 
 
