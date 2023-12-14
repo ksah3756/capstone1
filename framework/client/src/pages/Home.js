@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import { fetchScores } from '../api/scores';
+import Footer from '../components/footer';
 
 const Home = () => {
   const { loggedInUser } = useContext(UserContext);
@@ -17,6 +18,7 @@ const Home = () => {
   };
 
   return (
+
     <div class="h-screen">
         <img src="./img/Home_bg.png" alt="" class="absolute inset-0 -z-10 h-full w-full object-cover"/>
 
@@ -131,6 +133,7 @@ const Home = () => {
                 </dl>
             </div>
             </div>
+            <Footer />
     </div>
   );
 };

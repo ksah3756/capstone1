@@ -5,6 +5,7 @@ import { fetchScores } from '../api/scores';
 import { diagnosisResult } from '../poseNet/diagnosis';
 import '../poseNet/diagnosis';
 import '../styles/styles.css';
+import Footer from '../components/footer';
 
 const PastData = () => {
   const { loggedInUser } = useContext(UserContext);
@@ -23,7 +24,6 @@ const PastData = () => {
         const scores = await fetchScores(loggedInUser);
         setData(scores);
         if (scores.length > 0) {
-          setDateValue(scores[0].date);
           const loggedInUserData = await diagnosisResult(loggedInUser);
           setDocValue(loggedInUserData['content']);
 
@@ -178,9 +178,9 @@ function getStatusFontColor(status) {
 
 
       {/* 모든 날짜 진단 내용 추출 */}
-      <div className="flex rounded-box overflow-x-auto">
+      <div className="grid grid-cols-7 gap-4 rounded-box">
         {data.map((score, index) => (
-          <a key={index} className="block p-6" style={{width: 300}}>
+          <a key={index} className="block w-44 p-6">
             <img src={status_info_pic(score)} className="w-full" />
             <h5 className="mt-2 mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{score.date}</h5>
             <p className="font-normal text-gray-700 dark:text-gray-400">{diagnosisResult(score)['content']}</p>
@@ -228,7 +228,7 @@ function getStatusFontColor(status) {
         </tbody>
       </table>
 
-    
+      <Footer />
     </div>
   );
 };

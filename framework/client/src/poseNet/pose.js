@@ -8,6 +8,7 @@ import { UserContext } from '../contexts/UserContext';
 import { ScoreComponent, fetchScores }  from "../api/scores";
 import { diagnosisCurrent, diagnosisResult } from "./diagnosis";
 import moment from "moment";
+import Footer from '../components/footer';
 
 const PoseNet = () => {
     const webcamRef = useRef(null);
@@ -249,6 +250,7 @@ const PoseNet = () => {
 
         </div>
       </div>
+      <Footer />
     </div>
     );
 }
