@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
+import Footer from '../components/footer';
 
 const Current = () => {
   const { loggedInUser } = useContext(UserContext);
@@ -50,7 +51,9 @@ const Current = () => {
 
       </div>
       </div>
-      </div>
+      
+      <Footer />
+  </div>
   );
 };
 

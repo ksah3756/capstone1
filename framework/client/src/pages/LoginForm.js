@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../contexts/UserContext';
 import { Link, useNavigate } from 'react-router-dom';
+import Footer from '../components/footer';
 
 const LoginForm = () => {
   const [user_id, setUserId] = useState('');
@@ -120,6 +121,7 @@ const LoginForm = () => {
                 </div>
             </div>
           </div>
+          <Footer />
           </div>
 
 
